@@ -223,6 +223,7 @@
                   {% endif %}
 
                   <div>
+                    {% comment %}
                     {% if item.original_price != item.final_price %}
                       <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
                       <span>{{ item.final_price | money }}</span>
@@ -248,6 +249,7 @@
                         <s class="compare-at-price">{{ item.variant.compare_at_price | money }}</s>
                       {% endif %}
                     {% endif %}
+                    {% endcomment %}
                   </div>
                 </td>
                 <td
@@ -315,10 +317,10 @@
                       assign unit_price = item.unit_price | money
                     endif
                   -%}
-                  <text-component value="{{ price | strip_html }}">{{ price }}</text-component>
+                  <text-component value="{{ price | strip_html }}">{% comment %}{{ price }}{% endcomment %}</text-component>
                   {%- if item.unit_price_measurement -%}
                     <div class="cart-items__price-unit cart-secondary-typography">
-                      {% render 'unit-price', price: unit_price, measurement: item.unit_price_measurement %}
+                      {% comment %}{% render 'unit-price', price: unit_price, measurement: item.unit_price_measurement %}{% endcomment %}
                     </div>
                   {%- endif -%}
                 </td>
@@ -762,5 +764,17 @@
   .cart-items__properties dt,
   .cart-items__properties dd {
     display: inline;
+  }
+
+  .cart-items__price {
+    display: none;
+  }
+
+  .cart-items__table-row {
+    grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr);
+    grid-template-areas:
+      'media details'
+      'media quantity'
+      'media error';
   }
 {% endstylesheet %}

@@ -35,6 +35,7 @@
   "
   {{ block.shopify_attributes }}
 >
+  {% comment %}
   {% if product.price_varies and has_swatches_only == false and price_min != blank %}
     <span class="price">{{ display_price }}</span>
   {% else %}
@@ -44,6 +45,7 @@
       product_resource: product
     %}
   {% endif %}
+  {% endcomment %}
 </product-price>
 
 {% schema %}

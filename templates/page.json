@@ -46,9 +46,14 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "foresporsel": {
+      "type": "page-foresporsel",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "foresporsel"
   ]
 }

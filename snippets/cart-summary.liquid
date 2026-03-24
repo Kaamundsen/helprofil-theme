@@ -5,6 +5,7 @@
 <div class="cart__summary-totals">
   {% # We need to keep this node in place to allow morphing to work properly # %}
   <div class="cart__original-total-container cart-primary-typography">
+    {% comment %}
     {%- if cart.cart_level_discount_applications.size > 0 -%}
       <span class="cart__summary-item cart__original-total">
         <span class="cart__original-total-label">{{ 'content.cart_subtotal' | t }}</span>
@@ -32,8 +33,10 @@
         </ul>
       </div>
     {%- endif -%}
+    {% endcomment %}
   </div>
 
+  {% comment %}
   {% if settings.show_cart_note or settings.show_add_discount_code %}
     <div class="cart-actions">
       {% if settings.show_cart_note %}
@@ -47,6 +50,7 @@
       {% endif %}
     </div>
   {% endif %}
+  {% endcomment %}
 
   {%- liquid
     if settings.currency_code_enabled_cart_total
@@ -56,6 +60,7 @@
     endif
   -%}
 
+  {% comment %}
   <div class="cart__total-container">
     <span
       class="cart__summary-item cart__total"
@@ -66,7 +71,6 @@
         ref="cartTotal"
         value="{{ total_price | strip_html }}"
         class="cart__total-value cart-secondary-typography"
-        {% comment %} Used by payment_terms web component {% endcomment %}
         data-cart-subtotal
       >
         {{ total_price }}
@@ -83,21 +87,18 @@
       {% render 'tax-info', has_discounts_enabled: settings.show_add_discount_code %}
     </div>
   </div>
+  {% endcomment %}
 </div>
 
 <div class="cart__ctas">
-  <button
-    type="submit"
+  <a
     id="checkout"
     class="cart__checkout-button button"
-    name="checkout"
-    {% if cart == empty %}
-      disabled
-    {% endif %}
-    form="cart-form"
+    href="/pages/foresporsel"
+    {% if cart == empty %}style="pointer-events: none; opacity: 0.5;"{% endif %}
   >
-    {{ 'content.checkout' | t }}
-  </button>
+    Send forespørsel
+  </a>
 
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div class="additional-checkout-buttons additional-checkout-buttons--vertical">
@@ -122,8 +123,8 @@
 
   .cart__summary-totals:not(:has(.cart-actions)) {
     margin-block-start: var(--margin-3xs);
-    border-block-start: 1px solid var(--color-border);
-    padding-block-start: var(--margin-xl);
+    border-block-start: none;
+    padding-block-start: 0;
   }
 
   .cart__installments {

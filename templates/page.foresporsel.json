@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "foresporsel": {
+      "type": "page-foresporsel",
+      "settings": {}
+    }
+  },
+  "order": ["foresporsel"]
+}

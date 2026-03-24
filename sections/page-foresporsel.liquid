@@ -1,0 +1,479 @@
+{% stylesheet %}
+  /* Hide only the main-page content section (title), not the header */
+  body:has(.foresporsel-outer) .shopify-section:has(.section.page-width-content) {
+    display: none;
+  }
+
+  /* Full-width gray right background, like Shopify checkout */
+  body:has(.foresporsel-outer) {
+    background: #fff;
+  }
+
+  .foresporsel-section-wrapper {
+    padding: 0;
+    position: relative;
+  }
+
+  .foresporsel-section-wrapper::after {
+    display: none;
+  }
+
+  .foresporsel-outer {
+    position: relative;
+    z-index: 1;
+    max-width: 980px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    min-height: calc(100vh - 120px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .foresporsel-section-wrapper::after {
+      display: none;
+    }
+    .foresporsel-outer {
+      grid-template-columns: 1fr;
+    }
+    .foresporsel-right {
+      order: -1;
+      background: #f4f6f8;
+    }
+  }
+
+  /* ---- Page title ---- */
+  .foresporsel-page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--color-foreground, #111);
+  }
+
+  /* ---- Left panel ---- */
+  .foresporsel-left {
+    padding: 48px 40px 48px 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 749px) {
+    .foresporsel-left {
+      padding: 24px 0;
+    }
+  }
+
+  /* ---- Right panel ---- */
+  .foresporsel-right {
+    padding: 48px 0 48px 40px;
+    position: relative;
+    background: #f4f6f8;
+  }
+
+  .foresporsel-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 9999px;
+    background: #f4f6f8;
+  }
+
+  .foresporsel-cart {
+    margin-top: 75px;
+    background: transparent;
+  }
+
+  @media screen and (max-width: 749px) {
+    .foresporsel-right {
+      padding: 24px 0;
+    }
+  }
+
+  /* ---- Blocks ---- */
+  .foresporsel-block {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-border, #e0e0e0);
+  }
+
+  .foresporsel-block:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .foresporsel-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .foresporsel-block-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 14px;
+    color: var(--color-foreground, #111);
+  }
+
+  .foresporsel-block-header .foresporsel-block-title {
+    margin: 0;
+  }
+
+  /* ---- Floating label fields ---- */
+  .foresporsel-field {
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  .foresporsel-field input,
+  .foresporsel-field select,
+  .foresporsel-field textarea {
+    width: 100%;
+    padding: 22px 14px 8px;
+    border: 1px solid #DEDEDE;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+    color: var(--color-foreground, #111);
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.15s;
+  }
+
+  .foresporsel-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .foresporsel-field textarea {
+    padding-top: 28px;
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .foresporsel-field label {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #767676;
+    pointer-events: none;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 28px);
+  }
+
+  .foresporsel-field textarea ~ label {
+    top: 20px;
+    transform: none;
+  }
+
+  .foresporsel-field input:focus ~ label,
+  .foresporsel-field input:not(:placeholder-shown) ~ label,
+  .foresporsel-field select ~ label,
+  .foresporsel-field textarea:focus ~ label,
+  .foresporsel-field textarea:not(:placeholder-shown) ~ label {
+    top: 8px;
+    transform: none;
+    font-size: 0.72rem;
+  }
+
+  .foresporsel-field input:focus,
+  .foresporsel-field select:focus,
+  .foresporsel-field textarea:focus {
+    outline: none;
+    border-color: #333;
+  }
+
+  .foresporsel-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* ---- Submit ---- */
+  .foresporsel-submit {
+    width: 100%;
+    margin-top: 20px;
+    padding-block: 16px;
+    font-size: 1rem;
+  }
+
+  /* ---- Cart items ---- */
+  .foresporsel-cart-item {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding-block: 16px;
+    border-bottom: 1px solid #dde1e6;
+  }
+
+  .foresporsel-cart-item:first-child {
+    border-top: none;
+  }
+
+  .foresporsel-cart-item-img-wrap {
+    position: relative;
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+  }
+
+  .foresporsel-cart-item-img-wrap img {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #dde1e6;
+    display: block;
+  }
+
+  .foresporsel-cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #000;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    min-width: 24px;
+    height: 24px;
+    padding-inline: 6px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .foresporsel-cart-item-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: var(--color-foreground, #111);
+  }
+
+  .foresporsel-cart-item-variant {
+    font-size: 0.85rem;
+    color: #767676;
+    margin: 0;
+  }
+
+  .foresporsel-cart-loading,
+  .foresporsel-cart-empty {
+    font-size: 0.9rem;
+    color: #767676;
+    padding: 16px 0;
+  }
+
+  /* ---- Success / confirmation ---- */
+  .foresporsel-confirmation {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  .foresporsel-confirmation-icon {
+    width: 56px;
+    height: 56px;
+    background: #1a1a2e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: #fff;
+  }
+
+  .foresporsel-confirmation h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+
+  .foresporsel-confirmation p {
+    color: #555;
+    margin: 0 0 28px;
+    line-height: 1.6;
+  }
+{% endstylesheet %}
+
+{% if page.handle == 'foresporsel' %}
+<div class="section section--full-width-margin section--page-width foresporsel-section-wrapper">
+  <div class="foresporsel-outer">
+
+    <div class="foresporsel-left">
+
+        {%- form 'contact', id: 'foresporsel-form', return_to: page.url -%}
+
+          {% if form.posted_successfully? %}
+
+            <div class="foresporsel-confirmation">
+              <div class="foresporsel-confirmation-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h2>Forespørsel sendt!</h2>
+              <p>Takk for din henvendelse. Vi går gjennom forespørselen og tar kontakt med deg så snart som mulig.</p>
+              <a href="/" class="button">Tilbake til butikken</a>
+            </div>
+
+          {% else %}
+
+            <h1 class="foresporsel-page-title">Forespørsel</h1>
+
+          <div class="foresporsel-block">
+            <div class="foresporsel-block-header">
+              <h2 class="foresporsel-block-title">Kontakt</h2>
+            </div>
+            <div class="foresporsel-field">
+              <input type="email" name="contact[E-post]" id="f-email" placeholder=" " autocomplete="email" required>
+              <label for="f-email">E-post</label>
+            </div>
+          </div>
+
+          <div class="foresporsel-block">
+            <h2 class="foresporsel-block-title">Levering</h2>
+            <div class="foresporsel-field">
+              <select name="contact[Land]" id="f-country" autocomplete="country-name">
+                <option value="Norge" selected>Norge</option>
+                <option value="Sverige">Sverige</option>
+                <option value="Danmark">Danmark</option>
+                <option value="Finland">Finland</option>
+                <option value="Annet">Annet</option>
+              </select>
+              <label for="f-country">Land/region</label>
+            </div>
+            <div class="foresporsel-field-row">
+              <div class="foresporsel-field">
+                <input type="text" name="contact[Fornavn]" id="f-firstname" placeholder=" " autocomplete="given-name">
+                <label for="f-firstname">Fornavn (valgfritt)</label>
+              </div>
+              <div class="foresporsel-field">
+                <input type="text" name="contact[Etternavn]" id="f-lastname" placeholder=" " autocomplete="family-name" required>
+                <label for="f-lastname">Etternavn</label>
+              </div>
+            </div>
+            <div class="foresporsel-field">
+              <input type="text" name="contact[Firmanavn]" id="f-company" placeholder=" " autocomplete="organization">
+              <label for="f-company">Firmanavn (valgfritt)</label>
+            </div>
+            <div class="foresporsel-field">
+              <input type="text" name="contact[Adresse]" id="f-address" placeholder=" " autocomplete="street-address">
+              <label for="f-address">Adresse</label>
+            </div>
+            <div class="foresporsel-field">
+              <input type="text" name="contact[Leilighet]" id="f-apt" placeholder=" " autocomplete="address-line2">
+              <label for="f-apt">Leilighet, etasje osv. (valgfritt)</label>
+            </div>
+            <div class="foresporsel-field-row">
+              <div class="foresporsel-field">
+                <input type="text" name="contact[Postnummer]" id="f-zip" placeholder=" " autocomplete="postal-code">
+                <label for="f-zip">Postnummer</label>
+              </div>
+              <div class="foresporsel-field">
+                <input type="text" name="contact[By]" id="f-city" placeholder=" " autocomplete="address-level2">
+                <label for="f-city">By</label>
+              </div>
+            </div>
+            <div class="foresporsel-field">
+              <input type="tel" name="contact[Telefon]" id="f-phone" placeholder=" " autocomplete="tel">
+              <label for="f-phone">Telefon (valgfritt)</label>
+            </div>
+          </div>
+
+          <div class="foresporsel-block">
+            <h2 class="foresporsel-block-title">Melding</h2>
+            <div class="foresporsel-field">
+              <textarea name="contact[Melding]" id="f-message" placeholder=" " rows="3"></textarea>
+              <label for="f-message">Melding til oss (valgfritt)</label>
+            </div>
+          </div>
+
+          <input type="hidden" name="contact[Produkter]" id="foresporsel-cart-hidden">
+
+          <button type="submit" class="foresporsel-submit button">
+            Send forespørsel
+          </button>
+
+          {% endif %}
+
+        {%- endform -%}
+
+    </div>
+
+    <div class="foresporsel-right">
+      <div class="foresporsel-cart" id="foresporsel-cart-items">
+        <p class="foresporsel-cart-loading">Laster handlekurv...</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch('/cart.js')
+      .then(function (res) { return res.json(); })
+      .then(function (cart) {
+        var container = document.getElementById('foresporsel-cart-items');
+        var hidden = document.getElementById('foresporsel-cart-hidden');
+
+        if (!cart.items || cart.items.length === 0) {
+          if (container) container.innerHTML = '<p class="foresporsel-cart-empty">Handlekurven er tom.</p>';
+          return;
+        }
+
+        var lines = [];
+        var html = '';
+
+        cart.items.forEach(function (item) {
+          var variantInfo = item.variant_title && item.variant_title !== 'Default Title'
+            ? ' \u2014 ' + item.variant_title : '';
+          lines.push(item.quantity + 'x ' + item.product_title + variantInfo);
+
+          html += '<div class="foresporsel-cart-item">';
+          html += '<div class="foresporsel-cart-item-img-wrap">';
+          if (item.image) {
+            html += '<img src="' + item.image + '" alt="' + item.product_title + '">';
+            html += '<span class="foresporsel-cart-badge">' + item.quantity + '</span>';
+          }
+          html += '</div>';
+          html += '<div class="foresporsel-cart-item-details">';
+          html += '<p class="foresporsel-cart-item-title">' + item.product_title + '</p>';
+          if (variantInfo) {
+            html += '<p class="foresporsel-cart-item-variant">' + item.variant_title + '</p>';
+          }
+          html += '</div>';
+          html += '</div>';
+        });
+
+        container.innerHTML = html;
+        if (hidden) hidden.value = lines.join('\n');
+      })
+      .catch(function () {
+        var container = document.getElementById('foresporsel-cart-items');
+        if (container) container.innerHTML = '<p class="foresporsel-cart-empty">Kunne ikke laste handlekurv.</p>';
+      });
+  });
+</script>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Forespørsel",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}
