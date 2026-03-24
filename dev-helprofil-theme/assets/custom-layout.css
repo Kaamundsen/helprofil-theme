@@ -1,0 +1,1841 @@
+/**
+ * custom-layout.css
+ *
+ * Egen stilfil for Helprofil som gir oss kontroll på farger uten å røre base.css.
+ *
+ * Denne filen overstyrer kun det viktigste (tekst, overskrifter, knapper, hero)
+ * ved å bruke konkrete farger, ikke Shopify sine farge-variabler.
+ *
+ * Juster verdiene i seksjonen "Helprofil fargepalett" under for å endre uttrykket.
+ */
+
+/* ============================================
+   Helprofil fargepalett (ENDRE HER)
+   ============================================ */
+
+:root {
+  /* Primær blå */
+  --hp-color-primary: #0D3050;
+  --hp-color-primary-dark: #0A243C;
+  --hp-color-primary-light: #0F3A66;
+
+  /* Accent-farge (brukes f.eks. til "Kjøp nå") */
+  --hp-color-accent: #17A0A0;
+  --hp-color-accent-dark: #149090;
+
+  /* Tekstfarger */
+  --hp-text-on-light: #0D3050;   /* Mørk tekst på lys bakgrunn */
+  --hp-text-on-dark: #ffffff;    /* Lys tekst på mørk bakgrunn */
+
+  /* Bakgrunnsfarger */
+  --hp-bg-light: #ffffff;
+  --hp-bg-muted: #f5f5f5;
+}
+
+/* ============================================
+   Global tekst og overskrifter (lys bakgrunn)
+   ============================================ */
+
+body {
+  color: var(--hp-text-on-light);
+  background-color: var(--hp-bg-light);
+}
+
+/* Brødtekst */
+p,
+body,
+.paragraph {
+  color: var(--hp-text-on-light) !important; /* #0D3050 */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--hp-text-on-light);
+}
+
+/* Lenker i brødtekst */
+main a:not(.button):not(.button-secondary):not(.button-unstyled) {
+  color: var(--hp-color-primary);
+}
+
+main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
+  color: var(--hp-color-primary-light);
+}
+
+/* ============================================
+   Knapper – primær og sekundær
+   ============================================ */
+
+/* Primær knapp (f.eks. "Om oss" hvis style = "button")
+   NB: Ekskluderer zoom-knappen og quantity +/- knappene, slik at de ikke blir blå */
+.button:not(.product-media-container__zoom-button):not(.quantity-minus):not(.quantity-plus) {
+  background-color: var(--hp-color-primary);
+  color: var(--hp-text-on-dark);
+  border-radius: var(--style-border-radius-buttons-primary);
+  box-shadow: inset 0 0 0 var(--style-border-width-primary) var(--hp-color-primary);
+}
+
+.button:not(.product-media-container__zoom-button):not(.quantity-minus):not(.quantity-plus):hover {
+  background-color: var(--hp-color-primary-light);
+  box-shadow: inset 0 0 0 var(--style-border-width-primary) var(--hp-color-primary-light);
+}
+
+/* Sekundær knapp (outline) */
+.button-secondary {
+  background-color: transparent;
+  color: var(--hp-color-primary);
+  box-shadow: inset 0 0 0 var(--style-border-width-secondary) var(--hp-color-primary);
+}
+
+/* ============================================
+   Shopify "Kjøp nå" (accelerated checkout) knapp
+   ============================================ */
+.shopify-payment-button__button,
+.shopify-payment-button__button--unbranded {
+  background-color: var(--hp-color-accent) !important;
+  color: #ffffff !important;
+  border-color: var(--hp-color-accent) !important;
+  --color-primary-button-background: var(--hp-color-accent) !important;
+  --color-primary-button-text: #ffffff !important;
+}
+
+.shopify-payment-button__button:hover,
+.shopify-payment-button__button:focus,
+.shopify-payment-button__button--unbranded:hover,
+.shopify-payment-button__button--unbranded:focus {
+  background-color: var(--hp-color-accent-dark) !important; /* Litt mørkere teal på hover/focus */
+  border-color: var(--hp-color-accent-dark) !important;
+  color: #ffffff !important;
+}
+
+/* Quick-add modal: sørg for mørkeblå tekst på hvit bakgrunn for produktnavn, pris og varianter */
+.quick-add-modal__content .view-product-title,
+.quick-add-modal__content .view-product-title *,
+.quick-add-modal__content .view-product-title a,
+.quick-add-modal__content .view-product-title a *,
+.quick-add-modal__content product-price,
+.quick-add-modal__content product-price *,
+.quick-add-modal__content .price,
+.quick-add-modal__content .price *,
+.quick-add-modal__content .variant-picker,
+.quick-add-modal__content .variant-picker *,
+.quick-add-modal__content .variant-option legend,
+.quick-add-modal__content .variant-option legend *,
+.quick-add-modal__content .variant-option__button-label,
+.quick-add-modal__content .variant-option__button-label *,
+.quick-add-modal__content .variant-option__button-label__text {
+  color: #0D3050 !important;
+  --color-foreground: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+/* ============================================
+   Produktbilde zoom-knapp (skal ikke være blå)
+   ============================================ */
+
+/* Denne knappen ligger oppå produktbildet og har klassen .button,
+   derfor må vi eksplisitt fjerne bakgrunn og border her – også på hover/focus */
+.button.product-media-container__zoom-button,
+.button.product-media-container__zoom-button:hover,
+.button.product-media-container__zoom-button:focus {
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  color: transparent !important; /* Skjul eventuell tekst/ikon, bare området skal være klikkbart */
+}
+
+.button-secondary:hover {
+  background-color: rgba(13, 48, 80, 0.08);
+}
+
+/* ============================================
+   Hero – tekst på hovedbildet
+   ============================================ */
+
+.hero .hero__content-wrapper,
+.hero .hero__content-wrapper *,
+.hero h1,
+.hero h2,
+.hero h3,
+.hero h4,
+.hero h5,
+.hero h6,
+.hero .h1,
+.hero .h2,
+.hero .h3,
+.hero .h4,
+.hero .h5,
+.hero .h6,
+.hero p,
+.hero .paragraph {
+  color: var(--hp-text-on-dark) !important; /* Hvit tekst på hero-bilde */
+}
+
+.hero .button,
+.hero .button-secondary {
+  background-color: transparent;
+  color: var(--hp-text-on-dark);
+  box-shadow: inset 0 0 0 1px var(--hp-text-on-dark);
+}
+
+.hero .button:hover,
+.hero .button-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ============================================
+   Header (navigasjon)
+   ============================================ */
+
+/* Standard: mørk blå tekst på lys bakgrunn i hovedmenyen */
+.header,
+.header a {
+  color: var(--hp-text-on-light);
+}
+
+/* Header ikoner - mørkeblå outline på hvit bakgrunn */
+.header .button-unstyled,
+.header .header-actions__action,
+.header .search-action,
+.header .header-actions__cart-icon {
+  background-color: var(--hp-bg-light) !important; /* Hvit bakgrunn */
+}
+
+.header .button-unstyled svg,
+.header .header-actions__action svg,
+.header .search-action svg,
+.header .header-actions__cart-icon svg {
+  fill: none !important; /* Ingen fyll - bare outline */
+  stroke: var(--hp-color-primary) !important; /* Mørkeblå outline */
+  color: var(--hp-color-primary) !important;
+}
+
+.header .button-unstyled .svg-wrapper,
+.header .header-actions__action .svg-wrapper {
+  color: var(--hp-color-primary) !important;
+}
+
+/* ============================================
+   Cart bubble (antall varer i handlekurv)
+   ============================================ */
+
+/* Gjør boblen mørkeblå, både i header og i cart-drawer */
+.header .cart-bubble__background,
+.cart-drawer__dialog .cart-bubble__background,
+.cart-drawer__content .cart-bubble__background,
+.cart-drawer__inner .cart-bubble__background,
+.cart-drawer .cart-bubble__background,
+.cart-bubble__background {
+  background-color: #0D3050 !important; /* Mørkeblå boble */
+}
+
+/* Overstyr fargevariablene som cart-bubble bruker */
+.header .cart-bubble,
+.header .cart-bubble * {
+  --color-primary-button-background: #0D3050 !important;
+  --color-primary-button-text: #ffffff !important;
+}
+
+/* ============================================
+   Seksjonsoverskrifter (f.eks. "Profilering")
+   ============================================ */
+
+.section h2,
+.section .h2,
+.section-title,
+.section-header h2 {
+  color: var(--hp-text-on-light);
+}
+
+/* ============================================
+   Footer / Nyhetsbrev
+   ============================================ */
+
+/* Nyhetsbrev heading i footer */
+footer .email-signup__heading,
+footer .email-signup-block h2,
+footer .email-signup-block .h2,
+footer h2,
+footer .h2 {
+  color: var(--hp-color-primary) !important; /* #0D3050 */
+}
+
+/* Footer brødtekst */
+footer p,
+footer .paragraph {
+  color: var(--hp-color-primary) !important; /* #0D3050 */
+}
+
+/* ============================================
+   Tekst på mørk blå bakgrunn
+   ============================================ */
+
+/* Alle seksjoner med mørk blå bakgrunn skal ha hvit tekst */
+[style*="background-color: rgb(13, 48, 80)"],
+[style*="background-color:#0D3050"],
+[style*="background: rgb(13, 48, 80)"],
+[style*="background:#0D3050"],
+.color-scheme-2,
+.color-scheme-3,
+.color-scheme-4,
+.color-scheme-5,
+[class*="color-scheme"]:not(.color-scheme-1) {
+  color: var(--hp-text-on-dark) !important;
+}
+
+[style*="background-color: rgb(13, 48, 80)"] h1,
+[style*="background-color: rgb(13, 48, 80)"] h2,
+[style*="background-color: rgb(13, 48, 80)"] h3,
+[style*="background-color: rgb(13, 48, 80)"] h4,
+[style*="background-color: rgb(13, 48, 80)"] h5,
+[style*="background-color: rgb(13, 48, 80)"] h6,
+[style*="background-color: rgb(13, 48, 80)"] p,
+[style*="background-color:#0D3050"] h1,
+[style*="background-color:#0D3050"] h2,
+[style*="background-color:#0D3050"] h3,
+[style*="background-color:#0D3050"] h4,
+[style*="background-color:#0D3050"] h5,
+[style*="background-color:#0D3050"] h6,
+[style*="background-color:#0D3050"] p,
+.color-scheme-2 h1,
+.color-scheme-2 h2,
+.color-scheme-2 h3,
+.color-scheme-2 h4,
+.color-scheme-2 h5,
+.color-scheme-2 h6,
+.color-scheme-2 p,
+.color-scheme-3 h1,
+.color-scheme-3 h2,
+.color-scheme-3 h3,
+.color-scheme-3 h4,
+.color-scheme-3 h5,
+.color-scheme-3 h6,
+.color-scheme-3 p,
+.color-scheme-4 h1,
+.color-scheme-4 h2,
+.color-scheme-4 h3,
+.color-scheme-4 h4,
+.color-scheme-4 h5,
+.color-scheme-4 h6,
+.color-scheme-4 p {
+  color: var(--hp-text-on-dark) !important; /* Hvit tekst på mørk bakgrunn */
+}
+
+/* Ikoner med tekst seksjon - tekst på mørk blå bakgrunn */
+.icon-block,
+.icon-block *,
+.icon-block h1,
+.icon-block h2,
+.icon-block h3,
+.icon-block h4,
+.icon-block h5,
+.icon-block h6,
+.icon-block .h1,
+.icon-block .h2,
+.icon-block .h3,
+.icon-block .h4,
+.icon-block .h5,
+.icon-block .h6,
+.icon-block p,
+.icon-block .paragraph,
+.icon-block .text-block,
+.icon-block .text-block * {
+  color: inherit !important;
+}
+
+/* Sørg for at tekst i icon-block på mørk bakgrunn blir hvit */
+.color-scheme-2 .icon-block,
+.color-scheme-3 .icon-block,
+.color-scheme-4 .icon-block,
+.color-scheme-5 .icon-block,
+[class*="color-scheme"]:not(.color-scheme-1) .icon-block,
+[style*="background-color: rgb(13, 48, 80)"] .icon-block,
+[style*="background-color:#0D3050"] .icon-block {
+  color: var(--hp-text-on-dark) !important;
+}
+
+.color-scheme-2 .icon-block *,
+.color-scheme-3 .icon-block *,
+.color-scheme-4 .icon-block *,
+.color-scheme-5 .icon-block *,
+[class*="color-scheme"]:not(.color-scheme-1) .icon-block *,
+[style*="background-color: rgb(13, 48, 80)"] .icon-block *,
+[style*="background-color:#0D3050"] .icon-block * {
+  color: var(--hp-text-on-dark) !important;
+}
+
+.color-scheme-2 .icon-block h1,
+.color-scheme-2 .icon-block h2,
+.color-scheme-2 .icon-block h3,
+.color-scheme-2 .icon-block h4,
+.color-scheme-2 .icon-block h5,
+.color-scheme-2 .icon-block h6,
+.color-scheme-3 .icon-block h1,
+.color-scheme-3 .icon-block h2,
+.color-scheme-3 .icon-block h3,
+.color-scheme-3 .icon-block h4,
+.color-scheme-3 .icon-block h5,
+.color-scheme-3 .icon-block h6,
+.color-scheme-4 .icon-block h1,
+.color-scheme-4 .icon-block h2,
+.color-scheme-4 .icon-block h3,
+.color-scheme-4 .icon-block h4,
+.color-scheme-4 .icon-block h5,
+.color-scheme-4 .icon-block h6,
+.color-scheme-5 .icon-block h1,
+.color-scheme-5 .icon-block h2,
+.color-scheme-5 .icon-block h3,
+.color-scheme-5 .icon-block h4,
+.color-scheme-5 .icon-block h5,
+.color-scheme-5 .icon-block h6 {
+  color: var(--hp-text-on-dark) !important;
+}
+
+.color-scheme-2 .icon-block p,
+.color-scheme-3 .icon-block p,
+.color-scheme-4 .icon-block p,
+.color-scheme-5 .icon-block p,
+[class*="color-scheme"]:not(.color-scheme-1) .icon-block p,
+[style*="background-color: rgb(13, 48, 80)"] .icon-block p,
+[style*="background-color:#0D3050"] .icon-block p,
+.color-scheme-2 p,
+.color-scheme-3 p,
+.color-scheme-4 p,
+.color-scheme-5 p,
+[class*="color-scheme"]:not(.color-scheme-1) p,
+[style*="background-color: rgb(13, 48, 80)"] p,
+[style*="background-color:#0D3050"] p {
+  color: var(--hp-text-on-dark) !important;
+}
+
+/* Tekst i group-block og text-block på mørk bakgrunn */
+.color-scheme-2 .group-block,
+.color-scheme-3 .group-block,
+.color-scheme-4 .group-block,
+.color-scheme-5 .group-block,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block,
+[style*="background-color: rgb(13, 48, 80)"] .group-block,
+[style*="background-color:#0D3050"] .group-block {
+  color: var(--hp-text-on-dark) !important;
+}
+
+.color-scheme-2 .group-block *,
+.color-scheme-3 .group-block *,
+.color-scheme-4 .group-block *,
+.color-scheme-5 .group-block *,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block *,
+[style*="background-color: rgb(13, 48, 80)"] .group-block *,
+[style*="background-color:#0D3050"] .group-block * {
+  color: var(--hp-text-on-dark) !important;
+}
+
+.color-scheme-2 .text-block,
+.color-scheme-3 .text-block,
+.color-scheme-4 .text-block,
+.color-scheme-5 .text-block,
+[class*="color-scheme"]:not(.color-scheme-1) .text-block,
+[style*="background-color: rgb(13, 48, 80)"] .text-block,
+[style*="background-color:#0D3050"] .text-block {
+  color: var(--hp-text-on-dark) !important;
+}
+
+.color-scheme-2 .text-block *,
+.color-scheme-3 .text-block *,
+.color-scheme-4 .text-block *,
+.color-scheme-5 .text-block *,
+[class*="color-scheme"]:not(.color-scheme-1) .text-block *,
+[style*="background-color: rgb(13, 48, 80)"] .text-block *,
+[style*="background-color:#0D3050"] .text-block * {
+  color: var(--hp-text-on-dark) !important;
+}
+
+/* Spesifikt for overskrifter og brødtekst i group-block og text-block */
+.color-scheme-2 .group-block h1,
+.color-scheme-2 .group-block h2,
+.color-scheme-2 .group-block h3,
+.color-scheme-2 .group-block h4,
+.color-scheme-2 .group-block h5,
+.color-scheme-2 .group-block h6,
+.color-scheme-2 .group-block .h1,
+.color-scheme-2 .group-block .h2,
+.color-scheme-2 .group-block .h3,
+.color-scheme-2 .group-block .h4,
+.color-scheme-2 .group-block .h5,
+.color-scheme-2 .group-block .h6,
+.color-scheme-2 .group-block p,
+.color-scheme-3 .group-block h1,
+.color-scheme-3 .group-block h2,
+.color-scheme-3 .group-block h3,
+.color-scheme-3 .group-block h4,
+.color-scheme-3 .group-block h5,
+.color-scheme-3 .group-block h6,
+.color-scheme-3 .group-block .h1,
+.color-scheme-3 .group-block .h2,
+.color-scheme-3 .group-block .h3,
+.color-scheme-3 .group-block .h4,
+.color-scheme-3 .group-block .h5,
+.color-scheme-3 .group-block .h6,
+.color-scheme-3 .group-block p,
+.color-scheme-4 .group-block h1,
+.color-scheme-4 .group-block h2,
+.color-scheme-4 .group-block h3,
+.color-scheme-4 .group-block h4,
+.color-scheme-4 .group-block h5,
+.color-scheme-4 .group-block h6,
+.color-scheme-4 .group-block .h1,
+.color-scheme-4 .group-block .h2,
+.color-scheme-4 .group-block .h3,
+.color-scheme-4 .group-block .h4,
+.color-scheme-4 .group-block .h5,
+.color-scheme-4 .group-block .h6,
+.color-scheme-4 .group-block p,
+.color-scheme-5 .group-block h1,
+.color-scheme-5 .group-block h2,
+.color-scheme-5 .group-block h3,
+.color-scheme-5 .group-block h4,
+.color-scheme-5 .group-block h5,
+.color-scheme-5 .group-block h6,
+.color-scheme-5 .group-block .h1,
+.color-scheme-5 .group-block .h2,
+.color-scheme-5 .group-block .h3,
+.color-scheme-5 .group-block .h4,
+.color-scheme-5 .group-block .h5,
+.color-scheme-5 .group-block .h6,
+.color-scheme-5 .group-block p,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block h1,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block h2,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block h3,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block h4,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block h5,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block h6,
+[class*="color-scheme"]:not(.color-scheme-1) .group-block p,
+[style*="background-color: rgb(13, 48, 80)"] .group-block h1,
+[style*="background-color: rgb(13, 48, 80)"] .group-block h2,
+[style*="background-color: rgb(13, 48, 80)"] .group-block h3,
+[style*="background-color: rgb(13, 48, 80)"] .group-block h4,
+[style*="background-color: rgb(13, 48, 80)"] .group-block h5,
+[style*="background-color: rgb(13, 48, 80)"] .group-block h6,
+[style*="background-color: rgb(13, 48, 80)"] .group-block p,
+[style*="background-color:#0D3050"] .group-block h1,
+[style*="background-color:#0D3050"] .group-block h2,
+[style*="background-color:#0D3050"] .group-block h3,
+[style*="background-color:#0D3050"] .group-block h4,
+[style*="background-color:#0D3050"] .group-block h5,
+[style*="background-color:#0D3050"] .group-block h6,
+[style*="background-color:#0D3050"] .group-block p {
+  color: var(--hp-text-on-dark) !important;
+}
+
+/* Overstyr global p-regel for ALLE p-elementer på mørk bakgrunn */
+.color-scheme-2 p,
+.color-scheme-3 p,
+.color-scheme-4 p,
+.color-scheme-5 p,
+[class*="color-scheme"]:not(.color-scheme-1) p,
+[style*="background-color: rgb(13, 48, 80)"] p,
+[style*="background-color:#0D3050"] p,
+.color-scheme-2 .paragraph,
+.color-scheme-3 .paragraph,
+.color-scheme-4 .paragraph,
+.color-scheme-5 .paragraph,
+[class*="color-scheme"]:not(.color-scheme-1) .paragraph,
+[style*="background-color: rgb(13, 48, 80)"] .paragraph,
+[style*="background-color:#0D3050"] .paragraph {
+  color: var(--hp-text-on-dark) !important; /* Hvit tekst på mørk bakgrunn */
+}
+
+/* ============================================
+   Announcement bar (nyhetsbrev i toppen)
+   ============================================ */
+
+.announcement-bar,
+.announcement-bar *,
+.announcement-bar__text,
+.announcement-bar__slide,
+.announcement-bar__slide * {
+  color: var(--hp-text-on-dark) !important; /* Hvit tekst på mørk blå bakgrunn */
+}
+
+.announcement-bar h1,
+.announcement-bar h2,
+.announcement-bar h3,
+.announcement-bar h4,
+.announcement-bar h5,
+.announcement-bar h6,
+.announcement-bar .h1,
+.announcement-bar .h2,
+.announcement-bar .h3,
+.announcement-bar .h4,
+.announcement-bar .h5,
+.announcement-bar .h6,
+.announcement-bar p {
+  color: var(--hp-text-on-dark) !important; /* Hvit tekst */
+}
+
+/* ============================================
+   Produktside
+   ============================================ */
+
+/* Produktbilder - sørg for at de ikke blir blå */
+.product-media img,
+.product-media__image,
+.product-media-container img,
+.product-media-gallery img,
+.product__media img {
+  background-color: transparent !important;
+  background: transparent !important;
+  filter: none !important;
+  opacity: 1 !important;
+  object-fit: contain !important;
+}
+
+/* Overstyr CSS variabel for bakgrunnsfarge i quick-add modal - MÅ være først */
+.quick-add-modal__content,
+.quick-add-modal__content *,
+.quick-add-modal__content .product-information__media,
+.quick-add-modal__content .product-information__media *,
+.quick-add-modal__content .media-fit-contain,
+.quick-add-modal__content .media-fit-contain *,
+.quick-add-modal__content .product-media-container,
+.quick-add-modal__content .product-media-container *,
+.quick-add-modal__content .media-gallery__grid,
+.quick-add-modal__content .media-gallery__grid * {
+  --color-background: #ffffff !important;
+  --color-background-rgb: 255, 255, 255 !important;
+}
+
+/* Quick-add modal produktinformasjon media - hvit bakgrunn (overstyrer color scheme og inline styles) */
+.quick-add-modal__content .product-information__media,
+.quick-add-modal__content .product-information__media[class*="color-"],
+.quick-add-modal__content .product-information__media .product-media,
+.quick-add-modal__content .product-information__media .product-media-container,
+.quick-add-modal__content .product-information__media .media-gallery,
+.quick-add-modal__content .product-information__media .media-gallery__grid,
+.quick-add-modal__content .product-information__media .slideshow-component,
+.quick-add-modal__content .product-information__media .slideshow-container,
+.quick-add-modal__content .product-information__media .product-media-container,
+.quick-add-modal__content .product-information__media .media-fit-contain,
+.quick-add-modal__content .product-information__media .slideshow-slide {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+/* Quick-add modal produktbilder - overstyrer inline styles og CSS variabler */
+.quick-add-modal__content img,
+.quick-add-modal__content .product-media img,
+.quick-add-modal__content .product-media__image,
+.quick-add-modal__content .product-media-container img,
+.quick-add-modal__content .product-information__media img,
+.quick-add-modal__content .product-information__media .product-media img,
+.quick-add-modal__content .product-information__media .product-media__image,
+.quick-add-modal__content .media-fit-contain img,
+.quick-add-modal__content .media-fit-contain .product-media__image,
+.quick-add-modal__content .media-fit-contain .deferred-media__poster-image,
+.quick-add-modal__content .media-fit-contain :is(img, .deferred-media__poster-image),
+.quick-add-modal__content .product-information__media .product-media img[src],
+.quick-add-modal__content .product-information__media .product-media__image[src],
+.quick-add-modal__content .media-gallery__grid img,
+.quick-add-modal__content .media-gallery__grid .product-media img,
+.quick-add-modal__content .media-gallery__grid .product-media__image,
+.quick-add-modal__content .media-gallery__grid .product-media-container img,
+.quick-add-modal__content .media-gallery__grid li img,
+.quick-add-modal__content .media-gallery__grid li .product-media img,
+.quick-add-modal__content .media-gallery__grid li .product-media__image {
+  background-color: transparent !important;
+  background: transparent !important;
+  filter: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  object-fit: contain !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Sørg for at product-media container ikke skjuler bildet */
+.quick-add-modal__content .product-information__media .product-media,
+.quick-add-modal__content .product-information__media .product-media-container,
+.quick-add-modal__content .product-information__media .slideshow-slide,
+.quick-add-modal__content .product-media-container,
+.quick-add-modal__content .product-media-container[class*="color-"] {
+  background-color: transparent !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+}
+
+/* Product-media-container - hvit/transparent bakgrunn, ikke blå */
+.quick-add-modal__content .product-media-container,
+.quick-add-modal__content .product-media-container[class*="color-"],
+.quick-add-modal__content .media-gallery__grid .product-media-container,
+.quick-add-modal__content .media-gallery__grid .product-media-container[class*="color-"],
+.quick-add-modal__content .product-media-container.media-fit-contain {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  --color-background: #ffffff !important;
+  --color-background-rgb: 255, 255, 255 !important;
+}
+
+/* Zoom button - transparent bakgrunn, men fortsatt klikkbar */
+.quick-add-modal__content .product-media-container__zoom-button,
+.quick-add-modal__content .product-media-container__zoom-button:hover,
+.quick-add-modal__content .product-media-container__zoom-button:focus,
+.quick-add-modal__content .media-gallery__grid .product-media-container__zoom-button {
+  background-color: transparent !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Sørg for at bildet vises bak zoom-button */
+.quick-add-modal__content .product-media-container .product-media,
+.quick-add-modal__content .product-media-container .product-media__image,
+.quick-add-modal__content .media-gallery__grid .product-media-container .product-media,
+.quick-add-modal__content .media-gallery__grid .product-media-container .product-media__image {
+  position: relative !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Sørg for at bildet i media-gallery__grid også vises */
+.quick-add-modal__content .media-gallery__grid,
+.quick-add-modal__content .media-gallery__grid li,
+.quick-add-modal__content .media-gallery__grid .product-media-container,
+.quick-add-modal__content .media-gallery__grid .product-media-container img,
+.quick-add-modal__content .media-gallery__grid .product-media-container .product-media,
+.quick-add-modal__content .media-gallery__grid .product-media-container .product-media__image,
+.quick-add-modal__content .media-gallery__grid li .product-media,
+.quick-add-modal__content .media-gallery__grid li .product-media-container {
+  background-color: transparent !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  position: relative !important;
+}
+
+/* Overstyr inline styles på product-media-container */
+.quick-add-modal__content .product-media-container[style*="background"],
+.quick-add-modal__content .media-gallery__grid .product-media-container[style*="background"],
+.quick-add-modal__content .product-media-container[style*="--color-background"],
+.quick-add-modal__content .media-gallery__grid .product-media-container[style*="--color-background"] {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Quick-add modal bakgrunn - hvit (overstyrer color scheme) */
+.quick-add-modal,
+.quick-add-modal[class*="color-"],
+.quick-add-modal__content,
+.quick-add-modal__content[class*="color-"],
+.quick-add-modal__content .product-details,
+.quick-add-modal__content .product-information__media,
+.quick-add-modal__content .product-information__media[class*="color-"],
+dialog.quick-add-modal,
+dialog.quick-add-modal[class*="color-"] {
+  background-color: var(--hp-bg-light) !important; /* Hvit bakgrunn */
+}
+
+/* Quick-add modal tekst - mørkeblå på hvit bakgrunn (overstyrer color scheme) */
+.quick-add-modal,
+.quick-add-modal[class*="color-"],
+.quick-add-modal *,
+.quick-add-modal__content,
+.quick-add-modal__content[class*="color-"],
+.quick-add-modal__content *,
+.quick-add-modal__content h1,
+.quick-add-modal__content h2,
+.quick-add-modal__content h3,
+.quick-add-modal__content h4,
+.quick-add-modal__content h5,
+.quick-add-modal__content h6,
+.quick-add-modal__content .h1,
+.quick-add-modal__content .h2,
+.quick-add-modal__content .h3,
+.quick-add-modal__content .h4,
+.quick-add-modal__content .h5,
+.quick-add-modal__content .h6,
+.quick-add-modal__content p,
+.quick-add-modal__content .paragraph,
+.quick-add-modal__content .text-block,
+.quick-add-modal__content .text-block *,
+.quick-add-modal__content .view-product-title,
+.quick-add-modal__content .view-product-title *,
+.quick-add-modal__content product-price,
+.quick-add-modal__content product-price * {
+  color: var(--hp-text-on-light) !important; /* Mørkeblå tekst på hvit bakgrunn */
+}
+
+/* ============================================
+   Produktbilde på produktside (ikke bare modal)
+   ============================================ */
+
+/* Fjern blå bakgrunn fra zoom-knappen og containeren rundt bildet på produktsiden */
+.product-information__media .product-media-container__zoom-button,
+.product-information__media .product-media-container__zoom-button:hover,
+.product-information__media .product-media-container__zoom-button:focus {
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.product-information__media .product-media-container,
+.product-information__media .product-media-container.media-fit-contain,
+.product-information__media .media-gallery__grid .product-media-container {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+.product-information__media .product-media__image,
+.product-information__media .product-media-container img {
+  background-color: transparent !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Hvite knapper i quick-add modal - blå tekst */
+.quick-add-modal .button-secondary,
+.quick-add-modal__content .button-secondary,
+.quick-add-modal .variant-option__button-label:not(:has(:checked)),
+.quick-add-modal__content .variant-option__button-label:not(:has(:checked)),
+.quick-add-modal .variant-option__button-label:not(:has([checked])),
+.quick-add-modal__content .variant-option__button-label:not(:has([checked])) {
+  background-color: var(--hp-bg-light) !important; /* Hvit bakgrunn */
+  color: #0D3050 !important; /* Mørkeblå tekst - eksplisitt farge */
+  border-color: #0D3050 !important;
+}
+
+.quick-add-modal .variant-option__button-label:not(:has(:checked)) .variant-option__button-text,
+.quick-add-modal__content .variant-option__button-label:not(:has(:checked)) .variant-option__button-text,
+.quick-add-modal .variant-option__button-label:not(:has([checked])) .variant-option__button-text,
+.quick-add-modal__content .variant-option__button-label:not(:has([checked])) .variant-option__button-text,
+.quick-add-modal .variant-option__button-label:not(:has(:checked)) .variant-option__button-label__text,
+.quick-add-modal__content .variant-option__button-label:not(:has(:checked)) .variant-option__button-label__text,
+.quick-add-modal__content .variant-option__button-label:not(:has(:checked)) span,
+.quick-add-modal__content .variant-option__button-label:not(:has([checked])) span,
+.quick-add-modal__content .variant-option__button-label:not(:has(:checked)) *,
+.quick-add-modal__content .variant-option__button-label:not(:has([checked])) * {
+  color: #0D3050 !important; /* Mørkeblå tekst - eksplisitt farge */
+}
+
+/* Quantity selector i quick-add modal - hvit bakgrunn med mørkeblå tekst */
+.quick-add-modal__content .quantity-selector,
+.quick-add-modal__content .quantity-selector:hover,
+.quick-add-modal__content .quantity-selector:focus,
+.quick-add-modal__content .quantity-selector:focus-within {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border-color: #0D3050 !important;
+  border: 1px solid #0D3050 !important;
+  color: #0D3050 !important;
+}
+
+/* Overstyr CSS variabler for quantity selector */
+.quick-add-modal__content .quantity-selector {
+  --color-input-background: #ffffff !important;
+  --color-input-hover-background: #ffffff !important;
+  --color-input-text: #0D3050 !important;
+  --color-input-border: #0D3050 !important;
+}
+
+.quick-add-modal__content .quantity-selector input[type='number'],
+.quick-add-modal__content .quantity-selector input[type='number']:focus,
+.quick-add-modal__content .quantity-selector input[type='number']:hover {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #0D3050 !important;
+  -webkit-text-fill-color: #0D3050 !important;
+}
+
+.quick-add-modal__content .quantity-selector .quantity-minus,
+.quick-add-modal__content .quantity-selector .quantity-plus,
+.quick-add-modal__content .quantity-selector .quantity-minus:hover,
+.quick-add-modal__content .quantity-selector .quantity-plus:hover,
+.quick-add-modal__content .quantity-selector .quantity-minus:focus,
+.quick-add-modal__content .quantity-selector .quantity-plus:focus {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #0D3050 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.quick-add-modal__content .quantity-selector .quantity-minus svg,
+.quick-add-modal__content .quantity-selector .quantity-plus svg,
+.quick-add-modal__content .quantity-selector .quantity-minus .svg-wrapper svg,
+.quick-add-modal__content .quantity-selector .quantity-plus .svg-wrapper svg,
+.quick-add-modal__content .quantity-selector .quantity-minus .svg-wrapper,
+.quick-add-modal__content .quantity-selector .quantity-plus .svg-wrapper,
+.quick-add-modal__content .quantity-selector .quantity-minus .svg-wrapper *,
+.quick-add-modal__content .quantity-selector .quantity-plus .svg-wrapper *,
+.quick-add-modal__content .quantity-selector .quantity-minus svg *,
+.quick-add-modal__content .quantity-selector .quantity-plus svg *,
+.quick-add-modal__content .quantity-selector .quantity-minus path,
+.quick-add-modal__content .quantity-selector .quantity-plus path,
+.quick-add-modal__content .quantity-selector .quantity-minus line,
+.quick-add-modal__content .quantity-selector .quantity-plus line,
+.quick-add-modal__content .quantity-selector .quantity-minus circle,
+.quick-add-modal__content .quantity-selector .quantity-plus circle,
+.quick-add-modal__content .quantity-selector .icon-plus svg,
+.quick-add-modal__content .quantity-selector .icon-plus svg *,
+.quick-add-modal__content .quantity-selector .icon-plus path,
+.quick-add-modal__content .quantity-selector .icon-plus line {
+  fill: none !important;
+  stroke: #0D3050 !important;
+  stroke-width: var(--icon-stroke-width, 1.5) !important;
+  color: #0D3050 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Overstyr currentColor i SVG */
+.quick-add-modal__content .quantity-selector .quantity-minus,
+.quick-add-modal__content .quantity-selector .quantity-plus {
+  --icon-stroke-color: #0D3050 !important;
+}
+
+/* Lukk-knapp (X-krysset) i quick-add modal - synlig */
+.quick-add-modal .close-button,
+.quick-add-modal__close,
+.quick-add-modal .quick-add-modal__close,
+.quick-add-modal__content .close-button {
+  background-color: transparent !important;
+  color: var(--hp-text-on-light) !important; /* Mørkeblå for synlighet */
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.quick-add-modal .close-button svg,
+.quick-add-modal__close svg,
+.quick-add-modal .quick-add-modal__close svg,
+.quick-add-modal__content .close-button svg {
+  fill: none !important;
+  stroke: var(--hp-text-on-light) !important; /* Mørkeblå outline */
+  color: var(--hp-text-on-light) !important;
+  opacity: 1 !important;
+}
+
+/* Cart drawer / Modal bakgrunn når man legger til produkt */
+.cart-drawer,
+.cart-drawer__dialog,
+.cart-drawer__content,
+.cart-drawer__inner {
+  background-color: var(--hp-bg-light) !important; /* Hvit bakgrunn */
+}
+
+/* Valgt variant knapp på produktsiden */
+.variant-option__button-label:has(:checked),
+.variant-option__button-label:has([checked]),
+.variant-option--buttons label:has(:checked),
+.variant-option--buttons label:has([checked]) {
+  background-color: var(--hp-color-primary) !important; /* Mørkeblå bakgrunn */
+  color: var(--hp-text-on-dark) !important; /* Hvit tekst */
+  border-color: var(--hp-color-primary) !important;
+}
+
+.variant-option__button-label:has(:checked) .variant-option__button-text,
+.variant-option--buttons label:has(:checked) .variant-option__button-text {
+  color: var(--hp-text-on-dark) !important; /* Hvit tekst */
+}
+
+/* Overstyr CSS-variabler for valgt variant */
+:root,
+.color-scheme-1,
+[class*="color-scheme"] {
+  --color-selected-variant-background: rgb(13, 48, 80) !important; /* #0D3050 */
+  --color-selected-variant-text: rgb(255, 255, 255) !important; /* Hvit */
+  --color-selected-variant-border: rgb(13, 48, 80) !important;
+  --color-selected-variant-hover-background: rgb(15, 58, 102) !important; /* #0F3A66 */
+  --color-selected-variant-hover-text: rgb(255, 255, 255) !important;
+  --color-selected-variant-hover-border: rgb(15, 58, 102) !important;
+}
+
+/* ============================================
+   Handlekurv-drawer (Handlekurv-panelet)
+   ============================================ */
+
+/* Selve panelet: hvit bakgrunn, mørkeblå tekst */
+.cart-drawer__dialog,
+.cart-drawer__content,
+.cart-drawer__inner,
+.cart-items-component {
+  background-color: #ffffff !important;
+  color: #0D3050 !important;
+}
+
+/* Overskrifter og brødtekst i handlekurv */
+.cart-items-component h1,
+.cart-items-component h2,
+.cart-items-component h3,
+.cart-items-component p,
+.cart-items-component .paragraph,
+.cart-items-component .cart-item__title,
+.cart-items-component .cart-item__price,
+.cart-items-component .cart-item__discount,
+.cart-items-component .cart-items__subtotal,
+.cart-items-component .cart-items__subtotal-price {
+  color: #0D3050 !important;
+}
+
+/* Eventuelle mørkeblå seksjoner i drawer som skal bli hvite */
+.cart-drawer__header,
+.cart-drawer__footer,
+.cart-drawer__totals,
+.cart-drawer__totals * {
+  background-color: #ffffff !important;
+  color: #0D3050 !important;
+}
+
+/* Overstyr CSS-variabler for cart-drawer (overstyrer color-scheme) */
+.cart-drawer,
+.cart-drawer *,
+.cart-drawer__dialog,
+.cart-drawer__dialog *,
+.cart-drawer__content,
+.cart-drawer__content *,
+.cart-drawer__inner,
+.cart-drawer__inner *,
+.cart-items-component,
+.cart-items-component *,
+.cart-drawer__summary,
+.cart-drawer__summary *,
+.cart-drawer__items,
+.cart-drawer__items *,
+.cart-drawer[class*="color-scheme"],
+.cart-drawer[class*="color-scheme"] *,
+.cart-drawer__dialog[class*="color-scheme"],
+.cart-drawer__dialog[class*="color-scheme"] * {
+  --color-background: #ffffff !important;
+  --color-background-rgb: 255, 255, 255 !important;
+  --color-foreground: #0D3050 !important;
+  --color-heading: #0D3050 !important;
+  --color-primary-button-background: #0D3050 !important;
+  --color-primary-button-text: #ffffff !important;
+}
+
+/* Alle elementer i cart-drawer skal ha hvit bakgrunn og mørkeblå tekst */
+.cart-drawer,
+.cart-drawer[class*="color-scheme"],
+.cart-drawer__dialog,
+.cart-drawer__dialog[class*="color-scheme"],
+.cart-drawer__content,
+.cart-drawer__content[class*="color-scheme"],
+.cart-drawer__inner,
+.cart-drawer__inner[class*="color-scheme"],
+.cart-items-component,
+.cart-items-component[class*="color-scheme"],
+.cart-drawer__summary,
+.cart-drawer__summary[class*="color-scheme"],
+.cart-drawer__items,
+.cart-drawer__items[class*="color-scheme"],
+.cart-drawer__header,
+.cart-drawer__header[class*="color-scheme"],
+.cart-drawer__footer,
+.cart-drawer__footer[class*="color-scheme"],
+.cart-drawer__totals,
+.cart-drawer__totals[class*="color-scheme"],
+.cart-items__table,
+.cart-items__table-row,
+.cart-item,
+.cart-item[class*="color-scheme"],
+.cart-item * {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #0D3050 !important;
+}
+
+/* Spesifikk tekst i cart-drawer */
+.cart-drawer h1,
+.cart-drawer h2,
+.cart-drawer h3,
+.cart-drawer h4,
+.cart-drawer h5,
+.cart-drawer h6,
+.cart-drawer p,
+.cart-drawer .paragraph,
+.cart-drawer .cart-item__title,
+.cart-drawer .cart-item__price,
+.cart-drawer .cart-items__subtotal,
+.cart-drawer .cart-items__subtotal-price,
+.cart-drawer a:not(.button) {
+  color: #0D3050 !important;
+}
+
+/* Cart-boble i cart-drawer header: hvit tekst på mørkeblå bakgrunn */
+.cart-drawer__heading .cart-bubble__background,
+.cart-drawer__header .cart-bubble__background,
+.cart-drawer__dialog .cart-drawer__heading .cart-bubble__background,
+.cart-drawer__dialog .cart-drawer__header .cart-bubble__background {
+  background-color: #0D3050 !important;
+  border-radius: 999px !important;
+  border: none !important;
+}
+
+.cart-drawer__heading .cart-bubble__text-count,
+.cart-drawer__header .cart-bubble__text-count,
+.cart-drawer__dialog .cart-drawer__heading .cart-bubble__text-count,
+.cart-drawer__dialog .cart-drawer__header .cart-bubble__text-count {
+  color: #ffffff !important;
+}
+
+/* Variant tekst i cart-drawer (Color: Blå, Størrelse: XS) - mørkeblå tekst - overstyrer alt */
+.cart-drawer .cart-items__variants,
+.cart-drawer .cart-items__variants *,
+.cart-drawer .cart-items__variants dl,
+.cart-drawer .cart-items__variants dt,
+.cart-drawer .cart-items__variants dd,
+.cart-drawer .cart-items__variant,
+.cart-drawer .cart-items__variant *,
+.cart-drawer .cart-items__variant dl,
+.cart-drawer .cart-items__variant dt,
+.cart-drawer .cart-items__variant dd,
+.cart-drawer__dialog .cart-items__variants,
+.cart-drawer__dialog .cart-items__variants *,
+.cart-drawer__dialog .cart-items__variants dd,
+.cart-drawer__dialog .cart-items__variant,
+.cart-drawer__dialog .cart-items__variant *,
+.cart-drawer__dialog .cart-items__variant dd,
+.cart-items-component .cart-items__variants,
+.cart-items-component .cart-items__variants *,
+.cart-items-component .cart-items__variants dd,
+.cart-items-component .cart-items__variant,
+.cart-items-component .cart-items__variant *,
+.cart-items-component .cart-items__variant dd,
+.cart-drawer .cart-items__variants[class*="color-"],
+.cart-drawer .cart-items__variants[class*="color-"] *,
+.cart-drawer .cart-items__variants[class*="color-"] dd,
+.cart-drawer .cart-items__variant[class*="color-"],
+.cart-drawer .cart-items__variant[class*="color-"] *,
+.cart-drawer .cart-items__variant[class*="color-"] dd {
+  color: #0D3050 !important;
+  --color-foreground: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+/* Pris under produktnavn i cart-drawer - mørkeblå tekst - overstyrer alt */
+.cart-drawer .cart-items__details > div,
+.cart-drawer .cart-items__details > div *,
+.cart-drawer .cart-items__details > div span,
+.cart-drawer .cart-items__details span:not(.visually-hidden),
+.cart-drawer__dialog .cart-items__details > div,
+.cart-drawer__dialog .cart-items__details > div span,
+.cart-drawer__dialog .cart-items__details span:not(.visually-hidden),
+.cart-items-component .cart-items__details > div,
+.cart-items-component .cart-items__details > div span,
+.cart-items-component .cart-items__details span:not(.visually-hidden),
+.cart-drawer .cart-items__details[class*="color-"] > div,
+.cart-drawer .cart-items__details[class*="color-"] > div span,
+.cart-drawer .cart-items__details[class*="color-"] span:not(.visually-hidden) {
+  color: #0D3050 !important;
+  --color-foreground: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+/* Quantity selector i cart-drawer - hvit bakgrunn, mørkeblå tekst, ingen mørkeblå hover */
+.cart-drawer .quantity-selector,
+.cart-drawer .quantity-selector:hover,
+.cart-drawer .quantity-selector:focus,
+.cart-drawer .quantity-selector:focus-within {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  border-color: #0D3050 !important;
+  color: #0D3050 !important;
+  --color-input-background: #ffffff !important;
+  --color-input-hover-background: #ffffff !important;
+  --color-input-text: #0D3050 !important;
+  --color-input-border: #0D3050 !important;
+}
+
+.cart-drawer .quantity-selector input[type='number'],
+.cart-drawer .quantity-selector input[type='number']:hover,
+.cart-drawer .quantity-selector input[type='number']:focus,
+.cart-drawer .quantity-selector input[type='number']:focus-within {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #0D3050 !important;
+  -webkit-text-fill-color: #0D3050 !important;
+}
+
+.cart-drawer .quantity-selector .quantity-minus,
+.cart-drawer .quantity-selector .quantity-plus,
+.cart-drawer .quantity-selector .quantity-minus:hover,
+.cart-drawer .quantity-selector .quantity-plus:hover,
+.cart-drawer .quantity-selector .quantity-minus:focus,
+.cart-drawer .quantity-selector .quantity-plus:focus {
+  background-color: transparent !important;
+  background: transparent !important;
+  color: #0D3050 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.cart-drawer .quantity-selector .quantity-minus svg,
+.cart-drawer .quantity-selector .quantity-plus svg,
+.cart-drawer .quantity-selector .quantity-minus .svg-wrapper svg,
+.cart-drawer .quantity-selector .quantity-plus .svg-wrapper svg,
+.cart-drawer .quantity-selector .quantity-minus .svg-wrapper,
+.cart-drawer .quantity-selector .quantity-plus .svg-wrapper,
+.cart-drawer .quantity-selector .quantity-minus svg *,
+.cart-drawer .quantity-selector .quantity-plus svg *,
+.cart-drawer .quantity-selector .quantity-minus path,
+.cart-drawer .quantity-selector .quantity-plus path,
+.cart-drawer .quantity-selector .quantity-minus line,
+.cart-drawer .quantity-selector .quantity-plus line {
+  fill: none !important;
+  stroke: #0D3050 !important;
+  color: #0D3050 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Søppelbøtte-ikon (remove button) i cart-drawer - mørkeblå, ingen bakgrunn - overstyrer alt */
+.cart-drawer .cart-items__remove,
+.cart-drawer .cart-items__remove:hover,
+.cart-drawer .cart-items__remove:focus,
+.cart-drawer .cart-items__remove:active,
+.cart-drawer .button--tertiary.cart-items__remove,
+.cart-drawer .button--tertiary.cart-items__remove:hover,
+.cart-drawer .button--tertiary.cart-items__remove:focus,
+.cart-drawer .button--tertiary.cart-items__remove:active,
+.cart-drawer__dialog .cart-items__remove,
+.cart-drawer__dialog .cart-items__remove:hover,
+.cart-drawer__dialog .cart-items__remove:focus,
+.cart-drawer__dialog .button--tertiary.cart-items__remove,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:hover,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:focus,
+.cart-items-component .cart-items__remove,
+.cart-items-component .cart-items__remove:hover,
+.cart-items-component .cart-items__remove:focus,
+.cart-items-component .button--tertiary.cart-items__remove,
+.cart-items-component .button--tertiary.cart-items__remove:hover,
+.cart-items-component .button--tertiary.cart-items__remove:focus {
+  background-color: transparent !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: #0D3050 !important;
+  border: none !important;
+  box-shadow: none !important;
+  --color-button-background: transparent !important;
+  --color-button-hover-background: transparent !important;
+  --color-button-text: #0D3050 !important;
+}
+
+.cart-drawer .cart-items__remove svg,
+.cart-drawer .cart-items__remove:hover svg,
+.cart-drawer .cart-items__remove:focus svg,
+.cart-drawer .cart-items__remove:active svg,
+.cart-drawer .button--tertiary.cart-items__remove svg,
+.cart-drawer .button--tertiary.cart-items__remove:hover svg,
+.cart-drawer .button--tertiary.cart-items__remove:focus svg,
+.cart-drawer .button--tertiary.cart-items__remove:active svg,
+.cart-drawer__dialog .cart-items__remove svg,
+.cart-drawer__dialog .cart-items__remove:hover svg,
+.cart-drawer__dialog .cart-items__remove:focus svg,
+.cart-drawer__dialog .button--tertiary.cart-items__remove svg,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:hover svg,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:focus svg,
+.cart-items-component .cart-items__remove svg,
+.cart-items-component .cart-items__remove:hover svg,
+.cart-items-component .cart-items__remove:focus svg,
+.cart-items-component .button--tertiary.cart-items__remove svg,
+.cart-items-component .button--tertiary.cart-items__remove:hover svg,
+.cart-items-component .button--tertiary.cart-items__remove:focus svg {
+  fill: none !important;
+  stroke: #0D3050 !important;
+  color: #0D3050 !important;
+}
+
+.cart-drawer .cart-items__remove svg *,
+.cart-drawer .cart-items__remove:hover svg *,
+.cart-drawer .cart-items__remove:focus svg *,
+.cart-drawer .cart-items__remove:active svg *,
+.cart-drawer .cart-items__remove svg path,
+.cart-drawer .cart-items__remove:hover svg path,
+.cart-drawer .cart-items__remove:focus svg path,
+.cart-drawer .cart-items__remove:active svg path,
+.cart-drawer .button--tertiary.cart-items__remove svg *,
+.cart-drawer .button--tertiary.cart-items__remove:hover svg *,
+.cart-drawer .button--tertiary.cart-items__remove:focus svg *,
+.cart-drawer .button--tertiary.cart-items__remove:active svg *,
+.cart-drawer .button--tertiary.cart-items__remove svg path,
+.cart-drawer .button--tertiary.cart-items__remove:hover svg path,
+.cart-drawer .button--tertiary.cart-items__remove:focus svg path,
+.cart-drawer .button--tertiary.cart-items__remove:active svg path,
+.cart-drawer__dialog .cart-items__remove svg *,
+.cart-drawer__dialog .cart-items__remove:hover svg *,
+.cart-drawer__dialog .cart-items__remove:focus svg *,
+.cart-drawer__dialog .cart-items__remove svg path,
+.cart-drawer__dialog .cart-items__remove:hover svg path,
+.cart-drawer__dialog .cart-items__remove:focus svg path,
+.cart-drawer__dialog .button--tertiary.cart-items__remove svg *,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:hover svg *,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:focus svg *,
+.cart-drawer__dialog .button--tertiary.cart-items__remove svg path,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:hover svg path,
+.cart-drawer__dialog .button--tertiary.cart-items__remove:focus svg path,
+.cart-items-component .cart-items__remove svg *,
+.cart-items-component .cart-items__remove:hover svg *,
+.cart-items-component .cart-items__remove:focus svg *,
+.cart-items-component .cart-items__remove svg path,
+.cart-items-component .cart-items__remove:hover svg path,
+.cart-items-component .cart-items__remove:focus svg path,
+.cart-items-component .button--tertiary.cart-items__remove svg *,
+.cart-items-component .button--tertiary.cart-items__remove:hover svg *,
+.cart-items-component .button--tertiary.cart-items__remove:focus svg *,
+.cart-items-component .button--tertiary.cart-items__remove svg path,
+.cart-items-component .button--tertiary.cart-items__remove:hover svg path,
+.cart-items-component .button--tertiary.cart-items__remove:focus svg path {
+  fill: none !important;
+  stroke: #0D3050 !important;
+  color: #0D3050 !important;
+}
+
+/* ============================================
+   Rabatt-seksjon i handlekurv (cart-discount)
+   ============================================ */
+
+/* Disclosure trigger (Rabatt-knappen) - mørkeblå tekst, synlig på hover - overstyrer alt */
+.cart-discount .disclosure-trigger,
+.cart-discount .disclosure-trigger *,
+.cart-discount .disclosure-trigger:hover,
+.cart-discount .disclosure-trigger:hover *,
+.cart-discount .disclosure-trigger:focus,
+.cart-discount .disclosure-trigger:focus *,
+.cart-drawer .cart-discount .disclosure-trigger,
+.cart-drawer .cart-discount .disclosure-trigger *,
+.cart-drawer .cart-discount .disclosure-trigger:hover,
+.cart-drawer .cart-discount .disclosure-trigger:hover *,
+.cart-drawer .cart-discount .disclosure-trigger:focus,
+.cart-drawer .cart-discount .disclosure-trigger:focus *,
+.cart-actions .cart-discount .disclosure-trigger,
+.cart-actions .cart-discount .disclosure-trigger *,
+.cart-actions .cart-discount .disclosure-trigger:hover,
+.cart-actions .cart-discount .disclosure-trigger:hover *,
+.cart-actions .cart-discount .disclosure-trigger:focus,
+.cart-actions .cart-discount .disclosure-trigger:focus * {
+  background-color: transparent !important;
+  color: #0D3050 !important;
+  border: none !important;
+  --color-foreground: #0D3050 !important;
+}
+
+.cart-discount .disclosure-trigger__label,
+.cart-discount .disclosure-trigger__label:hover,
+.cart-discount .disclosure-trigger__label:focus,
+.cart-discount .disclosure-trigger__label *,
+.cart-discount .disclosure-trigger__label.h6,
+.cart-discount .disclosure-trigger__label.h6:hover,
+.cart-discount .disclosure-trigger__label.h6:focus,
+.cart-drawer .cart-discount .disclosure-trigger__label,
+.cart-drawer .cart-discount .disclosure-trigger__label:hover,
+.cart-drawer .cart-discount .disclosure-trigger__label:focus,
+.cart-drawer .cart-discount .disclosure-trigger__label *,
+.cart-drawer .cart-discount .disclosure-trigger__label.h6,
+.cart-drawer .cart-discount .disclosure-trigger__label.h6:hover,
+.cart-drawer .cart-discount .disclosure-trigger__label.h6:focus,
+.cart-actions .cart-discount .disclosure-trigger__label,
+.cart-actions .cart-discount .disclosure-trigger__label:hover,
+.cart-actions .cart-discount .disclosure-trigger__label:focus,
+.cart-actions .cart-discount .disclosure-trigger__label *,
+.cart-actions .cart-discount .disclosure-trigger__label.h6,
+.cart-actions .cart-discount .disclosure-trigger__label.h6:hover,
+.cart-actions .cart-discount .disclosure-trigger__label.h6:focus {
+  color: #0D3050 !important;
+  --color-foreground: #0D3050 !important;
+}
+
+/* Pluss/minus ikon i disclosure trigger - mørkeblå, synlig på hover */
+.cart-discount .disclosure-trigger .svg-wrapper,
+.cart-discount .disclosure-trigger:hover .svg-wrapper,
+.cart-discount .disclosure-trigger:focus .svg-wrapper,
+.cart-discount .disclosure-trigger .icon-plus,
+.cart-discount .disclosure-trigger:hover .icon-plus,
+.cart-discount .disclosure-trigger:focus .icon-plus,
+.cart-drawer .cart-discount .disclosure-trigger .svg-wrapper,
+.cart-drawer .cart-discount .disclosure-trigger:hover .svg-wrapper,
+.cart-drawer .cart-discount .disclosure-trigger:focus .svg-wrapper {
+  color: #0D3050 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.cart-discount .disclosure-trigger svg,
+.cart-discount .disclosure-trigger:hover svg,
+.cart-discount .disclosure-trigger:focus svg,
+.cart-discount .disclosure-trigger .icon-plus svg,
+.cart-discount .disclosure-trigger:hover .icon-plus svg,
+.cart-discount .disclosure-trigger:focus .icon-plus svg,
+.cart-drawer .cart-discount .disclosure-trigger svg,
+.cart-drawer .cart-discount .disclosure-trigger:hover svg,
+.cart-drawer .cart-discount .disclosure-trigger:focus svg {
+  fill: none !important;
+  stroke: #0D3050 !important;
+  color: #0D3050 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.cart-discount .disclosure-trigger svg path,
+.cart-discount .disclosure-trigger:hover svg path,
+.cart-discount .disclosure-trigger:focus svg path,
+.cart-discount .disclosure-trigger .icon-plus svg path,
+.cart-discount .disclosure-trigger:hover .icon-plus svg path,
+.cart-discount .disclosure-trigger:focus .icon-plus svg path,
+.cart-drawer .cart-discount .disclosure-trigger svg path,
+.cart-drawer .cart-discount .disclosure-trigger:hover svg path,
+.cart-drawer .cart-discount .disclosure-trigger:focus svg path {
+  stroke: #0D3050 !important;
+  color: #0D3050 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Cart discount form og content - hvit bakgrunn */
+.cart-discount__form,
+.cart-discount__content,
+.cart-drawer .cart-discount__form,
+.cart-drawer .cart-discount__content {
+  background-color: #ffffff !important;
+  --color-background: #ffffff !important;
+}
+
+/* Cart actions - mørkeblå tekst */
+.cart-actions,
+.cart-actions *,
+.cart-actions .cart-discount,
+.cart-actions .cart-discount * {
+  color: #0D3050 !important;
+  --color-foreground: #0D3050 !important;
+}
+
+/* Rabattkode input-felt - hvit bakgrunn, mørkeblå tekst, synlig på hover og focus - overstyrer alt */
+.cart-discount__input,
+.cart-discount__input:hover,
+.cart-discount__input:focus,
+.cart-discount__input:focus-within,
+.cart-discount__input:active,
+.cart-discount .cart-discount__input,
+.cart-discount .cart-discount__input:hover,
+.cart-discount .cart-discount__input:focus,
+.cart-discount .cart-discount__input:focus-within,
+.cart-discount .cart-discount__input:active,
+.cart-drawer .cart-discount__input,
+.cart-drawer .cart-discount__input:hover,
+.cart-drawer .cart-discount__input:focus,
+.cart-drawer .cart-discount__input:focus-within,
+.cart-drawer .cart-discount__input:active,
+.cart-drawer .cart-discount .cart-discount__input,
+.cart-drawer .cart-discount .cart-discount__input:hover,
+.cart-drawer .cart-discount .cart-discount__input:focus,
+.cart-drawer .cart-discount .cart-discount__input:focus-within,
+.cart-drawer .cart-discount .cart-discount__input:active,
+.cart-actions .cart-discount__input,
+.cart-actions .cart-discount__input:hover,
+.cart-actions .cart-discount__input:focus,
+.cart-actions .cart-discount__input:focus-within,
+.cart-actions .cart-discount__input:active {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+  color: #0D3050 !important;
+  border-color: #0D3050 !important;
+  -webkit-text-fill-color: #0D3050 !important;
+  --color-input-background: #ffffff !important;
+  --color-input-hover-background: #ffffff !important;
+  --color-input-focus-background: #ffffff !important;
+  --color-input-text: #0D3050 !important;
+  --color-input-border: #0D3050 !important;
+}
+
+.cart-discount__input::placeholder {
+  color: #999999 !important;
+  opacity: 1 !important;
+}
+
+/* "Bruk" knappen i rabatt-seksjonen - mørkeblå bakgrunn, hvit tekst */
+.cart-discount__button,
+.cart-discount__button:hover,
+.cart-discount__button:focus,
+.cart-drawer .cart-discount__button,
+.cart-drawer .cart-discount__button:hover,
+.cart-drawer .cart-discount__button:focus {
+  background-color: #0D3050 !important;
+  color: #ffffff !important;
+  border-color: #0D3050 !important;
+}
+
+/* Rabattmelding tekst (f.eks. "Kjøp 10 stk og få 10% rabatt") - teal farge */
+.cart-discount__pill,
+.cart-discount__pill *,
+.cart-discount__pill p,
+.cart-discount__pill-code,
+.cart-discount__codes,
+.cart-discount__codes *,
+.cart-discount__codes li,
+.cart-discount__codes p,
+.cart-drawer .cart-discount__pill,
+.cart-drawer .cart-discount__pill *,
+.cart-drawer .cart-discount__pill p,
+.cart-drawer .cart-discount__pill-code,
+.cart-drawer .cart-discount__codes,
+.cart-drawer .cart-discount__codes *,
+.cart-drawer .cart-discount__codes li,
+.cart-drawer .cart-discount__codes p {
+  color: #17A0A0 !important;
+  --color-foreground: #17A0A0 !important;
+}
+
+/* Remove button i rabatt-pill */
+.cart-discount__pill-remove,
+.cart-discount__pill-remove:hover,
+.cart-discount__pill-remove:focus,
+.cart-discount__pill-remove svg,
+.cart-discount__pill-remove:hover svg,
+.cart-discount__pill-remove:focus svg,
+.cart-drawer .cart-discount__pill-remove,
+.cart-drawer .cart-discount__pill-remove:hover,
+.cart-drawer .cart-discount__pill-remove:focus,
+.cart-drawer .cart-discount__pill-remove svg,
+.cart-drawer .cart-discount__pill-remove:hover svg,
+.cart-drawer .cart-discount__pill-remove:focus svg {
+  background-color: transparent !important;
+  color: #17A0A0 !important;
+  fill: #17A0A0 !important;
+  stroke: #17A0A0 !important;
+}
+
+/* Rabattmelding i cart items (f.eks. "Kjøp 10 stk og få 10% rabatt") - teal farge - overstyrer alt */
+.cart-items__details ul.list-unstyled li,
+.cart-items__details ul.list-unstyled li *,
+.cart-items__details ul.list-unstyled li p,
+.cart-items__details ul[role="list"] li,
+.cart-items__details ul[role="list"] li *,
+.cart-items__details ul[role="list"] li p,
+.cart-items__table-row .cart-items__details ul.list-unstyled li,
+.cart-items__table-row .cart-items__details ul.list-unstyled li *,
+.cart-items__table-row .cart-items__details ul[role="list"] li,
+.cart-items__table-row .cart-items__details ul[role="list"] li *,
+.cart-drawer .cart-items__details ul.list-unstyled li,
+.cart-drawer .cart-items__details ul.list-unstyled li *,
+.cart-drawer .cart-items__details ul.list-unstyled li p,
+.cart-drawer .cart-items__details ul[role="list"] li,
+.cart-drawer .cart-items__details ul[role="list"] li *,
+.cart-drawer .cart-items__details ul[role="list"] li p,
+.cart-items-component .cart-items__details ul.list-unstyled li,
+.cart-items-component .cart-items__details ul.list-unstyled li *,
+.cart-items-component .cart-items__details ul.list-unstyled li p,
+.cart-items-component .cart-items__details ul[role="list"] li,
+.cart-items-component .cart-items__details ul[role="list"] li *,
+.cart-items-component .cart-items__details ul[role="list"] li p,
+.cart-items__table .cart-items__details ul.list-unstyled li,
+.cart-items__table .cart-items__details ul.list-unstyled li *,
+.cart-items__table .cart-items__details ul[role="list"] li,
+.cart-items__table .cart-items__details ul[role="list"] li * {
+  color: #17A0A0 !important;
+  --color-foreground: #17A0A0 !important;
+  --color-text: #17A0A0 !important;
+}
+
+/* Compare-at-price (streket gjennom pris) i cart items - teal farge for å matche */
+.cart-items__details .compare-at-price,
+.cart-items__details .compare-at-price *,
+.cart-items__details s.compare-at-price,
+.cart-items__details s.compare-at-price *,
+.cart-drawer .cart-items__details .compare-at-price,
+.cart-drawer .cart-items__details .compare-at-price *,
+.cart-drawer .cart-items__details s.compare-at-price,
+.cart-drawer .cart-items__details s.compare-at-price *,
+.cart-items-component .cart-items__details .compare-at-price,
+.cart-items-component .cart-items__details .compare-at-price *,
+.cart-items-component .cart-items__details s.compare-at-price,
+.cart-items-component .cart-items__details s.compare-at-price * {
+  color: #17A0A0 !important;
+  --color-foreground: #17A0A0 !important;
+}
+
+/* ============================================
+   MIN SIDE (ACCOUNT) MODAL/POP-UP
+   ============================================ */
+/* Account popover og drawer - hvit bakgrunn, mørkeblå tekst */
+.account-popover__panel,
+.account-popover__panel[class*="color-"],
+.account-drawer__dialog,
+.account-drawer__dialog[class*="color-"],
+.account-actions,
+.account-actions * {
+  background-color: #ffffff !important;
+  color: #0D3050 !important;
+  --color-background: #ffffff !important;
+  --color-background-rgb: 255, 255, 255 !important;
+  --color-foreground: #0D3050 !important;
+  --color-foreground-rgb: 13, 48, 80 !important;
+  --color-heading: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+/* Spesifikk tekst i account popover/drawer */
+.account-actions__title,
+.account-actions__title *,
+.account-actions__email,
+.account-actions__email *,
+.account-actions__link,
+.account-actions__link *,
+.account-actions__sign-in-text,
+.account-actions__sign-in-text *,
+.account-actions__fallback-text,
+.account-actions__fallback-text * {
+  color: #0D3050 !important;
+}
+
+/* Account button avatar - marineblå bakgrunn (ikke svart) */
+.account-button__avatar {
+  background-color: #0D3050 !important;
+  --color-primary-button-background: #0D3050 !important;
+  color: #ffffff !important;
+  --color-primary-button-text: #ffffff !important;
+}
+
+/* Account button icon - sørg for at person-ikonet vises (ikke sirkel med strek) */
+.account-button__icon,
+.account-button__icon svg,
+.account-button__icon svg *,
+.account-button__icon svg path {
+  color: #0D3050 !important;
+  fill: none !important;
+  stroke: #0D3050 !important;
+  background-color: transparent !important;
+}
+
+/* ============================================
+   SØK (SEARCH) MODAL
+   ============================================ */
+/* Search modal - hvit bakgrunn, mørkeblå tekst */
+.search-modal__content,
+.search-modal__content[class*="color-"],
+.predictive-search,
+.predictive-search[class*="color-"],
+.predictive-search-form,
+.predictive-search-form *,
+.predictive-search-form__content-wrapper,
+.predictive-search-form__content-wrapper *,
+.predictive-search-form__header,
+.predictive-search-form__header *,
+.predictive-search-form__content,
+.predictive-search-form__content *,
+.predictive-search-dropdown,
+.predictive-search-dropdown * {
+  background-color: #ffffff !important;
+  color: #0D3050 !important;
+  --color-background: #ffffff !important;
+  --color-background-rgb: 255, 255, 255 !important;
+  --color-foreground: #0D3050 !important;
+  --color-foreground-rgb: 13, 48, 80 !important;
+  --color-heading: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+/* Search input - hvit bakgrunn, mørkeblå tekst */
+.search-input,
+.search-input:focus,
+.search-input:hover {
+  background-color: #ffffff !important;
+  color: #0D3050 !important;
+  border-color: #0D3050 !important;
+  --color-input-background: #ffffff !important;
+  --color-input-hover-background: #ffffff !important;
+  --color-input-text: #0D3050 !important;
+  --color-input-border: #0D3050 !important;
+}
+
+.search-input::placeholder {
+  color: #999999 !important;
+  opacity: 1 !important;
+}
+
+/* Search icon - mørkeblå */
+.predictive-search__icon,
+.predictive-search__icon svg,
+.predictive-search__icon svg *,
+.predictive-search__icon svg path {
+  color: #0D3050 !important;
+  fill: none !important;
+  stroke: #0D3050 !important;
+}
+
+/* Search close button - mørkeblå */
+.predictive-search__close-modal-button,
+.predictive-search__close-modal-button:hover,
+.predictive-search__close-modal-button:focus {
+  background-color: transparent !important;
+  color: #0D3050 !important;
+  border-color: #0D3050 !important;
+}
+
+.predictive-search__close-modal-button svg,
+.predictive-search__close-modal-button:hover svg,
+.predictive-search__close-modal-button:focus svg,
+.predictive-search__close-modal-button svg *,
+.predictive-search__close-modal-button:hover svg *,
+.predictive-search__close-modal-button:focus svg * {
+  fill: none !important;
+  stroke: #0D3050 !important;
+  color: #0D3050 !important;
+}
+
+/* Search results - hvit bakgrunn, mørkeblå tekst */
+.predictive-search-results__inner,
+.predictive-search-results__inner *,
+.predictive-search-results__title,
+.predictive-search-results__title *,
+.predictive-search-results__card,
+.predictive-search-results__card * {
+  background-color: #ffffff !important;
+  color: #0D3050 !important;
+}
+
+/* Search button - mørkeblå bakgrunn, hvit tekst */
+.predictive-search__search-button,
+.predictive-search__search-button:hover,
+.predictive-search__search-button:focus {
+  background-color: #0D3050 !important;
+  color: #ffffff !important;
+  border-color: #0D3050 !important;
+}
+
+/* ============================================
+   Quick-add modal – tving mørkeblå tekst (overstyr alle color-schemes)
+   ============================================ */
+.quick-add-modal,
+.quick-add-modal__content {
+  --color-foreground: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+.quick-add-modal__content .view-product-title,
+.quick-add-modal__content .view-product-title *,
+.quick-add-modal__content .view-product-title a,
+.quick-add-modal__content .view-product-title a *,
+.quick-add-modal__content product-price,
+.quick-add-modal__content product-price *,
+.quick-add-modal__content .price,
+.quick-add-modal__content .price *,
+.quick-add-modal__content .variant-picker,
+.quick-add-modal__content .variant-picker *,
+.quick-add-modal__content .variant-option legend,
+.quick-add-modal__content .variant-option legend *,
+.quick-add-modal__content .variant-option__button-label,
+.quick-add-modal__content .variant-option__button-label *,
+.quick-add-modal__content .variant-option__button-label__text,
+.quick-add-modal__content p,
+.quick-add-modal__content .paragraph,
+.quick-add-modal__content .text-block,
+.quick-add-modal__content .text-block * {
+  color: #0D3050 !important;
+}
+
+/* Overstyr hvit-tekst-regler for group-block inne i quick-add modal,
+   uten å endre andre seksjoner med mørk bakgrunn på nettstedet */
+.quick-add-modal__content .group-block,
+.quick-add-modal__content .group-block *,
+.quick-add-modal__content .group-block .text-block,
+.quick-add-modal__content .group-block .text-block *,
+.quick-add-modal__content .group-block h1,
+.quick-add-modal__content .group-block h2,
+.quick-add-modal__content .group-block h3,
+.quick-add-modal__content .group-block h4,
+.quick-add-modal__content .group-block h5,
+.quick-add-modal__content .group-block h6,
+.quick-add-modal__content .group-block .h1,
+.quick-add-modal__content .group-block .h2,
+.quick-add-modal__content .group-block .h3,
+.quick-add-modal__content .group-block .h4,
+.quick-add-modal__content .group-block .h5,
+.quick-add-modal__content .group-block .h6,
+.quick-add-modal__content .group-block p,
+.quick-add-modal__content .group-block .paragraph,
+.quick-add-modal__content .group-block .view-product-title,
+.quick-add-modal__content .group-block .view-product-title *,
+.quick-add-modal__content .group-block .view-product-title a,
+.quick-add-modal__content .group-block .view-product-title a *,
+.quick-add-modal__content[class*="color-scheme"] .group-block,
+.quick-add-modal__content[class*="color-scheme"] .group-block *,
+.quick-add-modal__content[class*="color-scheme"] .view-product-title,
+.quick-add-modal__content[class*="color-scheme"] .view-product-title *,
+.quick-add-modal__content[class*="color-scheme"] .view-product-title a,
+.quick-add-modal__content[class*="color-scheme"] .view-product-title a *,
+.quick-add-modal[class*="color-scheme"] .view-product-title,
+.quick-add-modal[class*="color-scheme"] .view-product-title *,
+.quick-add-modal[class*="color-scheme"] .view-product-title a,
+.quick-add-modal[class*="color-scheme"] .view-product-title a * {
+  color: #0D3050 !important;
+  --color-foreground: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+/* Overstyr hvit-tekst for variant-picker og variant-knapper (farge/størrelse) i quick-add modal */
+.quick-add-modal__content .variant-picker,
+.quick-add-modal__content .variant-picker *,
+.quick-add-modal__content .variant-option,
+.quick-add-modal__content .variant-option *,
+.quick-add-modal__content .variant-option legend,
+.quick-add-modal__content .variant-option legend *,
+.quick-add-modal__content .variant-option__button-label,
+.quick-add-modal__content .variant-option__button-label *,
+.quick-add-modal__content .variant-option__button-label__text,
+.quick-add-modal__content .variant-option__button-label__text *,
+.quick-add-modal__content .variant-option__button-label span,
+.quick-add-modal__content .variant-option__button-label span *,
+.quick-add-modal__content[class*="color-scheme"] .variant-picker,
+.quick-add-modal__content[class*="color-scheme"] .variant-picker *,
+.quick-add-modal__content[class*="color-scheme"] .variant-option,
+.quick-add-modal__content[class*="color-scheme"] .variant-option *,
+.quick-add-modal__content[class*="color-scheme"] .variant-option legend,
+.quick-add-modal__content[class*="color-scheme"] .variant-option legend *,
+.quick-add-modal__content[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)),
+.quick-add-modal__content[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)) *,
+.quick-add-modal__content[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)) .variant-option__button-label__text,
+.quick-add-modal__content[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)) span,
+.quick-add-modal[class*="color-scheme"] .variant-picker,
+.quick-add-modal[class*="color-scheme"] .variant-picker *,
+.quick-add-modal[class*="color-scheme"] .variant-option,
+.quick-add-modal[class*="color-scheme"] .variant-option *,
+.quick-add-modal[class*="color-scheme"] .variant-option legend,
+.quick-add-modal[class*="color-scheme"] .variant-option legend *,
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)),
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)) *,
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)) .variant-option__button-label__text,
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:not(:has(:checked)) span {
+  color: #0D3050 !important;
+  --color-foreground: #0D3050 !important;
+  --color-text: #0D3050 !important;
+}
+
+/* Sørg for at VALGT variant (med mørkeblå bakgrunn) fortsatt har hvit tekst i quick-add modal */
+.quick-add-modal__content .variant-option__button-label:has(:checked),
+.quick-add-modal__content .variant-option__button-label:has([checked]),
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:has(:checked),
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:has([checked]) {
+  color: #ffffff !important;
+}
+
+.quick-add-modal__content .variant-option__button-label:has(:checked) .variant-option__button-label__text,
+.quick-add-modal__content .variant-option__button-label:has([checked]) .variant-option__button-label__text,
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:has(:checked) .variant-option__button-label__text,
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:has([checked]) .variant-option__button-label__text,
+.quick-add-modal__content .variant-option__button-label:has(:checked) span,
+.quick-add-modal__content .variant-option__button-label:has([checked]) span,
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:has(:checked) span,
+.quick-add-modal[class*="color-scheme"] .variant-option__button-label:has([checked]) span {
+  color: #ffffff !important;
+  --color-foreground: #ffffff !important;
+  --color-text: #ffffff !important;
+}
