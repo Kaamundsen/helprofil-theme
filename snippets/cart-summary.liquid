@@ -5,6 +5,7 @@
 <div class="cart__summary-totals">
   {% # We need to keep this node in place to allow morphing to work properly # %}
   <div class="cart__original-total-container cart-primary-typography">
+    {% comment %}
     {%- if cart.cart_level_discount_applications.size > 0 -%}
       <span class="cart__summary-item cart__original-total">
         <span class="cart__original-total-label">{{ 'content.cart_subtotal' | t }}</span>
@@ -32,6 +33,7 @@
         </ul>
       </div>
     {%- endif -%}
+    {% endcomment %}
   </div>
 
   {% if settings.show_cart_note or settings.show_add_discount_code %}
@@ -57,6 +59,7 @@
   -%}
 
   <div class="cart__total-container">
+    {% comment %}
     <span
       class="cart__summary-item cart__total"
       role="status"
@@ -66,12 +69,12 @@
         ref="cartTotal"
         value="{{ total_price | strip_html }}"
         class="cart__total-value cart-secondary-typography"
-        {% comment %} Used by payment_terms web component {% endcomment %}
         data-cart-subtotal
       >
-        {% comment %}{{ total_price }}{% endcomment %}
+        {{ total_price }}
       </text-component>
     </span>
+    {% endcomment %}
     {% if settings.show_installments %}
       <span class="cart__summary-item cart__installments">
         {% form 'cart', cart %}
