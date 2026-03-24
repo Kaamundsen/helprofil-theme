@@ -91,13 +91,18 @@
 </div>
 
 <div class="cart__ctas">
-  <a
+  <button
+    type="submit"
     id="checkout"
     class="cart__checkout-button button"
-    href="{{ routes.checkout_url }}"
+    name="checkout"
+    {% if cart == empty %}
+      disabled
+    {% endif %}
+    form="cart-form"
   >
     Send forespørsel
-  </a>
+  </button>
 
   {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
     <div class="additional-checkout-buttons additional-checkout-buttons--vertical">
