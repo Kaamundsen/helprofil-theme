@@ -66,7 +66,7 @@
     "nested_product": "{{ product_title }} for {{ parent_title }}"
   },
   "actions": {
-    "add_to_cart": "Legg i handlekurv",
+    "add_to_cart": "Legg til",
     "clear_all": "Fjern alle",
     "remove": "Fjern",
     "view_in_your_space": "Vis på området ditt",
@@ -260,7 +260,7 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "Legg i handlekurv",
+      "add_to_cart": "Legg til",
       "added_to_cart": "Lagt til i handlekurv",
       "adding_to_cart": "Legger til ...",
       "add_to_cart_error": "Problem med å legge til i handlekurven",
