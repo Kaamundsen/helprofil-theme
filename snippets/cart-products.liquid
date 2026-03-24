@@ -765,4 +765,16 @@
   .cart-items__properties dd {
     display: inline;
   }
+
+  .cart-items__price {
+    display: none;
+  }
+
+  .cart-items__table-row {
+    grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr);
+    grid-template-areas:
+      'media details'
+      'media quantity'
+      'media error';
+  }
 {% endstylesheet %}
