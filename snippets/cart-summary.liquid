@@ -36,6 +36,7 @@
     {% endcomment %}
   </div>
 
+  {% comment %}
   {% if settings.show_cart_note or settings.show_add_discount_code %}
     <div class="cart-actions">
       {% if settings.show_cart_note %}
@@ -49,6 +50,7 @@
       {% endif %}
     </div>
   {% endif %}
+  {% endcomment %}
 
   {%- liquid
     if settings.currency_code_enabled_cart_total
@@ -58,8 +60,8 @@
     endif
   -%}
 
+  {% comment %}
   <div class="cart__total-container">
-    {% comment %}
     <span
       class="cart__summary-item cart__total"
       role="status"
@@ -74,7 +76,6 @@
         {{ total_price }}
       </text-component>
     </span>
-    {% endcomment %}
     {% if settings.show_installments %}
       <span class="cart__summary-item cart__installments">
         {% form 'cart', cart %}
@@ -86,6 +87,7 @@
       {% render 'tax-info', has_discounts_enabled: settings.show_add_discount_code %}
     </div>
   </div>
+  {% endcomment %}
 </div>
 
 <div class="cart__ctas">
