@@ -133,7 +133,7 @@
     padding: 22px 14px 8px;
     border: 1px solid #DEDEDE;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-family: inherit;
     background: #fff;
     color: var(--color-foreground, #111);
@@ -161,7 +161,7 @@
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: #767676;
     pointer-events: none;
     transition: all 0.15s ease;
@@ -257,14 +257,14 @@
   }
 
   .foresporsel-cart-item-title {
-    font-size: 0.95rem;
+    font-size: 0.82rem;
     font-weight: 500;
     margin: 0 0 4px;
     color: var(--color-foreground, #111);
   }
 
   .foresporsel-cart-item-variant {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: #767676;
     margin: 0;
   }
@@ -344,20 +344,10 @@
 
           <div class="foresporsel-block">
             <h2 class="foresporsel-block-title">Levering</h2>
-            <div class="foresporsel-field">
-              <select name="contact[Land]" id="f-country" autocomplete="country-name">
-                <option value="Norge" selected>Norge</option>
-                <option value="Sverige">Sverige</option>
-                <option value="Danmark">Danmark</option>
-                <option value="Finland">Finland</option>
-                <option value="Annet">Annet</option>
-              </select>
-              <label for="f-country">Land/region</label>
-            </div>
             <div class="foresporsel-field-row">
               <div class="foresporsel-field">
                 <input type="text" name="contact[Fornavn]" id="f-firstname" placeholder=" " autocomplete="given-name">
-                <label for="f-firstname">Fornavn (valgfritt)</label>
+                <label for="f-firstname">Fornavn</label>
               </div>
               <div class="foresporsel-field">
                 <input type="text" name="contact[Etternavn]" id="f-lastname" placeholder=" " autocomplete="family-name" required>
