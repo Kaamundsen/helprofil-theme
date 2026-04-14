@@ -315,29 +315,25 @@
 
     <div class="foresporsel-left">
 
-        {%- form 'contact', id: 'foresporsel-form', return_to: page.url -%}
+        <div id="foresporsel-confirmation" class="foresporsel-confirmation" style="display:none;">
+          <div class="foresporsel-confirmation-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h2>Forespørsel sendt!</h2>
+          <p>Takk for din henvendelse. Vi går gjennom forespørselen og tar kontakt med deg så snart som mulig.</p>
+          <a href="/" class="button">Tilbake til butikken</a>
+        </div>
 
-          {% if form.posted_successfully? %}
+        <form id="foresporsel-form" novalidate>
 
-            <div class="foresporsel-confirmation">
-              <div class="foresporsel-confirmation-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <h2>Forespørsel sendt!</h2>
-              <p>Takk for din henvendelse. Vi går gjennom forespørselen og tar kontakt med deg så snart som mulig.</p>
-              <a href="/" class="button">Tilbake til butikken</a>
-            </div>
-
-          {% else %}
-
-            <h1 class="foresporsel-page-title">Forespørsel</h1>
+          <h1 class="foresporsel-page-title">Forespørsel</h1>
 
           <div class="foresporsel-block">
             <div class="foresporsel-block-header">
               <h2 class="foresporsel-block-title">Kontakt</h2>
             </div>
             <div class="foresporsel-field">
-              <input type="email" name="contact[E-post]" id="f-email" placeholder=" " autocomplete="email" required>
+              <input type="email" name="email" id="f-email" placeholder=" " autocomplete="email" required>
               <label for="f-email">E-post</label>
             </div>
           </div>
@@ -346,30 +342,30 @@
             <h2 class="foresporsel-block-title">Levering</h2>
             <div class="foresporsel-field-row">
               <div class="foresporsel-field">
-                <input type="text" name="contact[Fornavn]" id="f-firstname" placeholder=" " autocomplete="given-name">
+                <input type="text" name="fornavn" id="f-firstname" placeholder=" " autocomplete="given-name">
                 <label for="f-firstname">Fornavn</label>
               </div>
               <div class="foresporsel-field">
-                <input type="text" name="contact[Etternavn]" id="f-lastname" placeholder=" " autocomplete="family-name" required>
+                <input type="text" name="etternavn" id="f-lastname" placeholder=" " autocomplete="family-name" required>
                 <label for="f-lastname">Etternavn</label>
               </div>
             </div>
             <div class="foresporsel-field">
-              <input type="text" name="contact[Firmanavn]" id="f-company" placeholder=" " autocomplete="organization">
+              <input type="text" name="firmanavn" id="f-company" placeholder=" " autocomplete="organization">
               <label for="f-company">Firmanavn (valgfritt)</label>
             </div>
             <div class="foresporsel-field-row">
               <div class="foresporsel-field">
-                <input type="text" name="contact[Postnummer]" id="f-zip" placeholder=" " autocomplete="postal-code">
+                <input type="text" name="postnummer" id="f-zip" placeholder=" " autocomplete="postal-code">
                 <label for="f-zip">Postnummer</label>
               </div>
               <div class="foresporsel-field">
-                <input type="text" name="contact[By]" id="f-city" placeholder=" " autocomplete="address-level2">
+                <input type="text" name="by" id="f-city" placeholder=" " autocomplete="address-level2">
                 <label for="f-city">By</label>
               </div>
             </div>
             <div class="foresporsel-field">
-              <input type="tel" name="contact[Telefon]" id="f-phone" placeholder=" " autocomplete="tel">
+              <input type="tel" name="telefon" id="f-phone" placeholder=" " autocomplete="tel">
               <label for="f-phone">Telefon</label>
             </div>
           </div>
@@ -377,20 +373,22 @@
           <div class="foresporsel-block">
             <h2 class="foresporsel-block-title">Melding</h2>
             <div class="foresporsel-field">
-              <textarea name="contact[Melding]" id="f-message" placeholder=" " rows="3"></textarea>
+              <textarea name="melding" id="f-message" placeholder=" " rows="3"></textarea>
               <label for="f-message">Melding til oss (valgfritt)</label>
             </div>
           </div>
 
-          <input type="hidden" name="contact[Produkter]" id="foresporsel-cart-hidden">
+          <input type="hidden" name="produkter" id="foresporsel-cart-hidden">
 
-          <button type="submit" class="foresporsel-submit button">
+          <p id="foresporsel-error" style="display:none; color:#c0392b; margin-top:12px; font-size:0.875rem;">
+            Noe gikk galt. Prøv igjen eller kontakt oss direkte.
+          </p>
+
+          <button type="submit" id="foresporsel-submit" class="foresporsel-submit button">
             Send forespørsel
           </button>
 
-          {% endif %}
-
-        {%- endform -%}
+        </form>
 
     </div>
 
@@ -404,7 +402,12 @@
 </div>
 
 <script>
+  var PIPEDRIVE_TOKEN = 'e06d30c7dfc8de6b016701ee513261e6d7e01147';
+  var PIPEDRIVE_BASE = 'https://api.pipedrive.com/v1';
+
   document.addEventListener('DOMContentLoaded', function () {
+
+    // Last handlekurv
     fetch('/cart.js')
       .then(function (res) { return res.json(); })
       .then(function (cart) {
@@ -447,6 +450,77 @@
         var container = document.getElementById('foresporsel-cart-items');
         if (container) container.innerHTML = '<p class="foresporsel-cart-empty">Kunne ikke laste handlekurv.</p>';
       });
+
+    // Send skjema til Pipedrive
+    var form = document.getElementById('foresporsel-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      var submitBtn = document.getElementById('foresporsel-submit');
+      var errorMsg = document.getElementById('foresporsel-error');
+      var confirmation = document.getElementById('foresporsel-confirmation');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sender...';
+      errorMsg.style.display = 'none';
+
+      var data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        // 1. Opprett Person
+        var personRes = await fetch(PIPEDRIVE_BASE + '/persons?api_token=' + PIPEDRIVE_TOKEN, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: [data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email,
+            email: [{ value: data.email, primary: true }],
+            phone: data.telefon ? [{ value: data.telefon, primary: true }] : undefined,
+            org_name: data.firmanavn || undefined,
+          })
+        });
+        var person = await personRes.json();
+        var personId = person.data && person.data.id;
+
+        // 2. Opprett Lead
+        var leadTitle = 'Forespørsel \u2013 ' + ([data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email);
+        var leadRes = await fetch(PIPEDRIVE_BASE + '/leads?api_token=' + PIPEDRIVE_TOKEN, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: leadTitle,
+            person_id: personId,
+          })
+        });
+        var lead = await leadRes.json();
+        var leadId = lead.data && lead.data.id;
+
+        // 3. Legg til note med produkter og melding
+        var noteContent = '<b>Produkter:</b><br>' + (data.produkter || '-').replace(/\n/g, '<br>');
+        if (data.melding) noteContent += '<br><br><b>Melding:</b><br>' + data.melding;
+        if (data.postnummer || data.by) noteContent += '<br><br><b>Poststed:</b> ' + [data.postnummer, data.by].filter(Boolean).join(' ');
+
+        await fetch(PIPEDRIVE_BASE + '/notes?api_token=' + PIPEDRIVE_TOKEN, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: noteContent,
+            lead_id: leadId,
+          })
+        });
+
+        // Vis bekreftelse
+        form.style.display = 'none';
+        confirmation.style.display = 'block';
+
+      } catch (err) {
+        errorMsg.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send forespørsel';
+      }
+    });
+
   });
 </script>
 
