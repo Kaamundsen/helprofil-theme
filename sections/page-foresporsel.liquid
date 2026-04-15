@@ -471,22 +471,24 @@
       try {
         // 1. Opprett Organisasjon hvis firmanavn er fylt ut
         var orgId = null;
-        if (data.firmanavn) {
+        if (data.firmanavn && data.firmanavn.trim()) {
           var orgRes = await fetch(PIPEDRIVE_BASE + '/organizations?api_token=' + PIPEDRIVE_TOKEN, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: data.firmanavn })
+            body: JSON.stringify({ name: data.firmanavn.trim() })
           });
+          if (!orgRes.ok) throw new Error('Org feil: ' + orgRes.status + ' ' + await orgRes.text());
           var org = await orgRes.json();
-          orgId = org.data && org.data.id;
+          if (!org.success) throw new Error('Org feil: ' + JSON.stringify(org));
+          orgId = org.data.id;
         }
 
         // 2. Opprett Person
         var personPayload = {
-          name: [data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email,
+          name: [data.fornavn, data.etternavn].filter(Boolean).join(' ').trim() || data.email,
           email: [{ value: data.email, primary: true }],
         };
-        if (data.telefon) personPayload.phone = [{ value: data.telefon, primary: true }];
+        if (data.telefon && data.telefon.trim()) personPayload.phone = [{ value: data.telefon.trim(), primary: true }];
         if (orgId) personPayload.org_id = orgId;
 
         var personRes = await fetch(PIPEDRIVE_BASE + '/persons?api_token=' + PIPEDRIVE_TOKEN, {
@@ -494,8 +496,10 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(personPayload)
         });
+        if (!personRes.ok) throw new Error('Person feil: ' + personRes.status + ' ' + await personRes.text());
         var person = await personRes.json();
-        var personId = person.data && person.data.id;
+        if (!person.success) throw new Error('Person feil: ' + JSON.stringify(person));
+        var personId = person.data.id;
 
         // Opprett Deal i "Bestillinger"-pipeline, stage "Henvendelse"
         var dealTitle = 'Forespørsel \u2013 ' + ([data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email);
@@ -535,9 +539,11 @@
         confirmation.style.display = 'block';
 
       } catch (err) {
+        errorMsg.textContent = 'Feil: ' + err.message;
         errorMsg.style.display = 'block';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Send forespørsel';
+        console.error('Pipedrive feil:', err);
       }
     });
 
