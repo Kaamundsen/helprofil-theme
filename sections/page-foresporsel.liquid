@@ -469,21 +469,35 @@
       var data = Object.fromEntries(new FormData(form).entries());
 
       try {
-        // 1. Opprett Person
+        // 1. Opprett Organisasjon hvis firmanavn er fylt ut
+        var orgId = null;
+        if (data.firmanavn) {
+          var orgRes = await fetch(PIPEDRIVE_BASE + '/organizations?api_token=' + PIPEDRIVE_TOKEN, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: data.firmanavn })
+          });
+          var org = await orgRes.json();
+          orgId = org.data && org.data.id;
+        }
+
+        // 2. Opprett Person
+        var personPayload = {
+          name: [data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email,
+          email: [{ value: data.email, primary: true }],
+        };
+        if (data.telefon) personPayload.phone = [{ value: data.telefon, primary: true }];
+        if (orgId) personPayload.org_id = orgId;
+
         var personRes = await fetch(PIPEDRIVE_BASE + '/persons?api_token=' + PIPEDRIVE_TOKEN, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: [data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email,
-            email: [{ value: data.email, primary: true }],
-            phone: data.telefon ? [{ value: data.telefon, primary: true }] : undefined,
-            org_name: data.firmanavn || undefined,
-          })
+          body: JSON.stringify(personPayload)
         });
         var person = await personRes.json();
         var personId = person.data && person.data.id;
 
-        // 2. Opprett Deal i "Bestillinger"-pipeline, stage "Henvendelse"
+        // Opprett Deal i "Bestillinger"-pipeline, stage "Henvendelse"
         var dealTitle = 'Forespørsel \u2013 ' + ([data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email);
         var dealRes = await fetch(PIPEDRIVE_BASE + '/deals?api_token=' + PIPEDRIVE_TOKEN, {
           method: 'POST',
@@ -498,10 +512,14 @@
         var deal = await dealRes.json();
         var dealId = deal.data && deal.data.id;
 
-        // 3. Legg til note med produkter og melding
-        var noteContent = '<b>Produkter:</b><br>' + (data.produkter || '-').replace(/\n/g, '<br>');
+        // 4. Legg til note med kontaktinfo, produkter og melding
+        var noteContent = '<b>Kontakt:</b><br>';
+        noteContent += 'E-post: ' + (data.email || '-') + '<br>';
+        if (data.telefon) noteContent += 'Telefon: ' + data.telefon + '<br>';
+        if (data.firmanavn) noteContent += 'Firma: ' + data.firmanavn + '<br>';
+        if (data.postnummer || data.by) noteContent += 'Poststed: ' + [data.postnummer, data.by].filter(Boolean).join(' ') + '<br>';
+        noteContent += '<br><b>Produkter:</b><br>' + (data.produkter || '-').replace(/\n/g, '<br>');
         if (data.melding) noteContent += '<br><br><b>Melding:</b><br>' + data.melding;
-        if (data.postnummer || data.by) noteContent += '<br><br><b>Poststed:</b> ' + [data.postnummer, data.by].filter(Boolean).join(' ');
 
         await fetch(PIPEDRIVE_BASE + '/notes?api_token=' + PIPEDRIVE_TOKEN, {
           method: 'POST',
