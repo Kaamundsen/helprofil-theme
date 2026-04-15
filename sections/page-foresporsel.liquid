@@ -483,18 +483,20 @@
         var person = await personRes.json();
         var personId = person.data && person.data.id;
 
-        // 2. Opprett Lead
-        var leadTitle = 'Forespørsel \u2013 ' + ([data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email);
-        var leadRes = await fetch(PIPEDRIVE_BASE + '/leads?api_token=' + PIPEDRIVE_TOKEN, {
+        // 2. Opprett Deal i "Bestillinger"-pipeline, stage "Henvendelse"
+        var dealTitle = 'Forespørsel \u2013 ' + ([data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email);
+        var dealRes = await fetch(PIPEDRIVE_BASE + '/deals?api_token=' + PIPEDRIVE_TOKEN, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            title: leadTitle,
+            title: dealTitle,
             person_id: personId,
+            pipeline_id: 2,
+            stage_id: 6,
           })
         });
-        var lead = await leadRes.json();
-        var leadId = lead.data && lead.data.id;
+        var deal = await dealRes.json();
+        var dealId = deal.data && deal.data.id;
 
         // 3. Legg til note med produkter og melding
         var noteContent = '<b>Produkter:</b><br>' + (data.produkter || '-').replace(/\n/g, '<br>');
@@ -506,7 +508,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             content: noteContent,
-            lead_id: leadId,
+            deal_id: dealId,
           })
         });
 
