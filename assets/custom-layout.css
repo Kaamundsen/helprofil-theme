@@ -149,6 +149,21 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
 }
 
 /* ============================================
+   Hero – mobilvisning: øk høyde og vis ansiktene
+   ============================================ */
+
+@media screen and (max-width: 749px) {
+  .hero-wrapper .hero {
+    min-height: 75svh;
+  }
+
+  .hero__image,
+  .hero__video-poster {
+    object-position: center 20%;
+  }
+}
+
+/* ============================================
    Hero – tekst på hovedbildet
    ============================================ */
 
@@ -253,7 +268,7 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
    kort i 2-kolonne-grid) strekkes det til full
    bredde — gir 2 kort på topp + 1 full bredde
    ============================================ */
-@container resource-list (max-width: 449px) {
+@container resource-list (max-width: 749px) {
   .resource-list--grid .resource-list__item:last-child:nth-child(odd) {
     grid-column: 1 / -1;
   }
