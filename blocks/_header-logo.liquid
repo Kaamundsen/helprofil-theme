@@ -24,6 +24,11 @@
 {% comment %}
   Output all logo variants, use CSS to hide/show the appropriate one
   based on the .header[transparent] selector
+
+  Logo bruker skip_srcset: Safari (særlig iOS) kan vise feil font/uskarphet
+  når img har flere srcset-varianter fra Shopifys CDN. Én 2x-URL + eager laster mer stabilt.
+  SVG med levende tekst + @font-face i samme fil fungerer ikke som <img> i noen nettlesere;
+  konverter tekst til outlines i Illustrator/Figma før opplasting.
 {% endcomment %}
 <a
   {% if template.name == 'index' and block_settings.hide_logo_on_home_page %}
@@ -58,7 +63,8 @@
       class: 'header-logo__image',
       height: block_settings.custom_height,
       text_fallback: shop.name,
-      style: logo_style
+      style: logo_style,
+      skip_srcset: true
     %}
   </span>
 
@@ -72,7 +78,8 @@
         class: 'header-logo__image',
         height: block_settings.custom_height,
         text_fallback: shop.name,
-        style: inverse_logo_style
+        style: inverse_logo_style,
+        skip_srcset: true
       %}
     </span>
   {% endif %}
@@ -123,6 +130,8 @@
     object-fit: contain;
     height: var(--header-logo-image-height-mobile);
     width: var(--header-logo-image-width-mobile);
+    /* Bedre sammensetting av logo i Safari på mobil */
+    transform: translateZ(0);
 
     @media screen and (min-width: 750px) {
       height: var(--header-logo-image-height);

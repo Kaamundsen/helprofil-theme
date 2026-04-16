@@ -7,6 +7,7 @@
   @param {string} [text_fallback] - text to display if image is blank
   @param {boolean} [unset_image_tag] - if true, ignores the image focal point
   @param {string} [style] - additional styles
+  @param {boolean} [skip_srcset] - If true, one 2x-height URL only (no srcset). Helps Safari/iOS with header logos from the CDN.
 
   @example
   {% render 'image', image: product.featured_image, height: 300, class: 'product-image' %}
@@ -16,17 +17,25 @@
   {% assign image_height_2x = height | default: image_height | times: 2 %}
   {% assign image_height_3x = height | default: image_height | times: 3 %}
 
-  {% capture image_srcset -%}
-    {{ image | image_url: height: image_height }} 1x, {{ image | image_url: height: image_height_2x }} 2x, {{ image | image_url: height: image_height_3x }} 3x
-  {%- endcapture %}
-
   {% assign style_value = style | default: '' %}
 
   {% if unset_image_tag %}
     {% assign style_value = style_value | append: 'object-position: inherit;' %}
   {% endif %}
 
-  {{ image | image_url: height: image_height | image_tag: class: class, srcset: image_srcset, style: style_value }}
+  {% if skip_srcset %}
+    {% assign logo_src_height = image_height_2x | at_most: 2000 %}
+    {{ image
+      | image_url: height: logo_src_height
+      | image_tag: class: class, style: style_value, loading: 'eager', fetchpriority: 'high'
+    }}
+  {% else %}
+    {% capture image_srcset -%}
+      {{ image | image_url: height: image_height }} 1x, {{ image | image_url: height: image_height_2x }} 2x, {{ image | image_url: height: image_height_3x }} 3x
+    {%- endcapture %}
+
+    {{ image | image_url: height: image_height | image_tag: class: class, srcset: image_srcset, style: style_value }}
+  {% endif %}
 {% elsif text_fallback %}
   <span class="image-fallback-text">{{ text_fallback }}</span>
 {% endif %}
