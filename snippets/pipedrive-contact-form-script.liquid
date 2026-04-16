@@ -36,6 +36,16 @@
           form.addEventListener('submit', async function (e) {
             e.preventDefault();
 
+            var wrap = form.closest('.contact-form');
+            if (wrap) {
+              wrap.querySelectorAll('.contact-form__success').forEach(function (el) {
+                el.remove();
+              });
+              wrap.querySelectorAll('.contact-form__error').forEach(function (el) {
+                el.remove();
+              });
+            }
+
             var submitBtn = form.querySelector('[type="submit"]');
             if (submitBtn) {
               submitBtn.disabled = true;
@@ -122,7 +132,6 @@
                 /* Person + notat ligger i Pipedrive; vis likevel takk */
               }
 
-              var wrap = form.closest('.contact-form');
               form.style.display = 'none';
               var ok = document.createElement('div');
               ok.className = 'contact-form__success';

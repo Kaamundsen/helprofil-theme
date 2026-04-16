@@ -1,12 +1,18 @@
 
-{%- assign block_settings = block.settings -%}
+{%- liquid
+  assign block_settings = block.settings
+  assign submit_label = block_settings.label | strip
+  if submit_label == blank or submit_label == 'Submit'
+    assign submit_label = 'Send'
+  endif
+-%}
 <button
   type="submit"
   class="button submit-button size-style {{ block_settings.style_class }}"
   style="{% render 'size-style', settings: block_settings %}"
   {{ block.shopify_attributes }}
 >
-  {{ block_settings.label }}
+  {{- submit_label -}}
 </button>
 
 {% stylesheet %}
@@ -24,7 +30,7 @@
       "type": "text",
       "id": "label",
       "label": "t:settings.label",
-      "default": "t:text_defaults.contact_form_button_label"
+      "default": "Send"
     },
     {
       "type": "select",
