@@ -287,7 +287,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>Helprofil er for alle – enten du er bedrift, idrettslag, forening eller privatperson. Vi gjør det enkelt å bestille treningsklær, arbeidsklær og profilartikler med din logo. Hos oss får du kjente merkevarer, fleksible løsninger og en trygg kundereise fra bestilling til levering.</p>",
+            "text": "<p>Helprofil er for alle – enten du jobber i en bedrift, et idrettslag, en forening eller er privatperson. Vi gjør det enkelt å bestille treningsklær, arbeidsklær og profilartikler med din logo. Hos oss får du kjente merkevarer, fleksible løsninger og en trygg kundereise fra bestilling til levering.</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
