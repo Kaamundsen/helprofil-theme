@@ -3,14 +3,25 @@
   (person + deal + notat), deretter POST til Shopifys vanlige contact-endepunkt
   slik at e-postvarsel fortsatt fungerer.
 {%- endcomment -%}
+{% liquid
+  assign pd_pipeline = settings.pipedrive_pipeline_id | default: 2 | plus: 0
+  assign pd_stage = settings.pipedrive_stage_id | default: 6 | plus: 0
+%}
 {% if settings.pipedrive_api_token != blank %}
   <script>
     (function () {
       var TOKEN = {{ settings.pipedrive_api_token | json }};
       var BASE = 'https://api.pipedrive.com/v1';
-      var PIPELINE_ID = {{ settings.pipedrive_pipeline_id | default: 2 }};
-      var STAGE_ID = {{ settings.pipedrive_stage_id | default: 6 }};
+      var PIPELINE_ID = {{ pd_pipeline }};
+      var STAGE_ID = {{ pd_stage }};
       var SUCCESS_TEXT = {{ 'blocks.contact_form.post_success' | t | json }};
+
+      function shopifyPostLooksSuccessful(res) {
+        if (res.ok) return true;
+        if (res.status === 302 || res.status === 301) return true;
+        if (res.type === 'opaqueredirect') return true;
+        return false;
+      }
 
       function qs(form, name) {
         var v = new FormData(form).get(name);
@@ -62,6 +73,7 @@
               var personId = person.data.id;
 
               var dealTitle = 'Kontaktskjema \u2013 ' + (name || email);
+              var dealId = null;
               var dealRes = await fetch(BASE + '/deals?api_token=' + encodeURIComponent(TOKEN), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -73,8 +85,11 @@
                 }),
               });
               var deal = await dealRes.json();
-              if (!dealRes.ok || !deal.success) throw new Error('Deal: ' + (deal.error || dealRes.status));
-              var dealId = deal.data && deal.data.id;
+              if (dealRes.ok && deal.success && deal.data && deal.data.id) {
+                dealId = deal.data.id;
+              } else {
+                console.warn('Pipedrive deal (kontakt):', dealRes.status, deal);
+              }
 
               var noteContent = '<b>Kilde:</b> Kontaktskjema (nettbutikk)<br>';
               noteContent += '<b>Navn:</b> ' + (name || '-') + '<br>';
@@ -82,19 +97,30 @@
               if (phone) noteContent += '<b>Telefon:</b> ' + phone + '<br>';
               if (body) noteContent += '<br><b>Melding:</b><br>' + body.replace(/\n/g, '<br>');
 
-              await fetch(BASE + '/notes?api_token=' + encodeURIComponent(TOKEN), {
+              var notePayload = { content: noteContent, person_id: personId };
+              if (dealId) notePayload.deal_id = dealId;
+              var noteRes = await fetch(BASE + '/notes?api_token=' + encodeURIComponent(TOKEN), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: noteContent, deal_id: dealId }),
+                body: JSON.stringify(notePayload),
               });
+              if (!noteRes.ok) {
+                var noteErr = await noteRes.text();
+                console.warn('Pipedrive note (kontakt):', noteRes.status, noteErr);
+              }
 
-              var action = form.getAttribute('action') || window.location.href;
+              var action = form.getAttribute('action') || window.location.pathname;
               var shopRes = await fetch(action, {
                 method: 'POST',
                 body: new FormData(form),
                 credentials: 'same-origin',
+                redirect: 'manual',
+                headers: { Accept: 'text/html' },
               });
-              if (!shopRes.ok) throw new Error('Shopify-skjema: ' + shopRes.status);
+              if (!shopifyPostLooksSuccessful(shopRes)) {
+                console.warn('Shopify kontakt-POST:', shopRes.status, shopRes.type);
+                /* Person + notat ligger i Pipedrive; vis likevel takk */
+              }
 
               var wrap = form.closest('.contact-form');
               form.style.display = 'none';
