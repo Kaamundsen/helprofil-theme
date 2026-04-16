@@ -166,7 +166,7 @@
           "name": "t:names.collection_card",
           "static": true,
           "settings": {
-            "placement": "on_image",
+            "placement": "below_image",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "collection_card_gap": 8,
