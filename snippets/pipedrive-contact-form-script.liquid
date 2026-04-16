@@ -1,0 +1,121 @@
+{%- comment -%}
+  Når tema har Pipedrive API-token: kontaktskjema sendes først til Pipedrive
+  (person + deal + notat), deretter POST til Shopifys vanlige contact-endepunkt
+  slik at e-postvarsel fortsatt fungerer.
+{%- endcomment -%}
+{% if settings.pipedrive_api_token != blank %}
+  <script>
+    (function () {
+      var TOKEN = {{ settings.pipedrive_api_token | json }};
+      var BASE = 'https://api.pipedrive.com/v1';
+      var PIPELINE_ID = {{ settings.pipedrive_pipeline_id | default: 2 }};
+      var STAGE_ID = {{ settings.pipedrive_stage_id | default: 6 }};
+      var SUCCESS_TEXT = {{ 'blocks.contact_form.post_success' | t | json }};
+
+      function qs(form, name) {
+        var v = new FormData(form).get(name);
+        return v != null ? String(v).trim() : '';
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.contact-form__form').forEach(function (form) {
+          if (form.dataset.pipedriveBound) return;
+          form.dataset.pipedriveBound = 'true';
+
+          form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            var submitBtn = form.querySelector('[type="submit"]');
+            if (submitBtn) {
+              submitBtn.disabled = true;
+              submitBtn.setAttribute('aria-busy', 'true');
+            }
+
+            var name = qs(form, 'contact[name]');
+            var email = qs(form, 'contact[email]');
+            var phone = qs(form, 'contact[phone]');
+            var body = qs(form, 'contact[body]');
+
+            if (!email) {
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.removeAttribute('aria-busy');
+              }
+              return;
+            }
+
+            try {
+              var personPayload = {
+                name: name || email,
+                email: [{ value: email, primary: true }],
+              };
+              if (phone) personPayload.phone = [{ value: phone, primary: true }];
+
+              var personRes = await fetch(BASE + '/persons?api_token=' + encodeURIComponent(TOKEN), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(personPayload),
+              });
+              if (!personRes.ok) throw new Error('Person: ' + personRes.status);
+              var person = await personRes.json();
+              if (!person.success) throw new Error('Person: ' + JSON.stringify(person));
+              var personId = person.data.id;
+
+              var dealTitle = 'Kontaktskjema \u2013 ' + (name || email);
+              var dealRes = await fetch(BASE + '/deals?api_token=' + encodeURIComponent(TOKEN), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  title: dealTitle,
+                  person_id: personId,
+                  pipeline_id: PIPELINE_ID,
+                  stage_id: STAGE_ID,
+                }),
+              });
+              var deal = await dealRes.json();
+              if (!dealRes.ok || !deal.success) throw new Error('Deal: ' + (deal.error || dealRes.status));
+              var dealId = deal.data && deal.data.id;
+
+              var noteContent = '<b>Kilde:</b> Kontaktskjema (nettbutikk)<br>';
+              noteContent += '<b>Navn:</b> ' + (name || '-') + '<br>';
+              noteContent += '<b>E-post:</b> ' + email + '<br>';
+              if (phone) noteContent += '<b>Telefon:</b> ' + phone + '<br>';
+              if (body) noteContent += '<br><b>Melding:</b><br>' + body.replace(/\n/g, '<br>');
+
+              await fetch(BASE + '/notes?api_token=' + encodeURIComponent(TOKEN), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: noteContent, deal_id: dealId }),
+              });
+
+              var action = form.getAttribute('action') || window.location.href;
+              var shopRes = await fetch(action, {
+                method: 'POST',
+                body: new FormData(form),
+                credentials: 'same-origin',
+              });
+              if (!shopRes.ok) throw new Error('Shopify-skjema: ' + shopRes.status);
+
+              var wrap = form.closest('.contact-form');
+              form.style.display = 'none';
+              var ok = document.createElement('div');
+              ok.className = 'contact-form__success';
+              ok.setAttribute('tabindex', '-1');
+              ok.textContent = SUCCESS_TEXT;
+              if (wrap) wrap.insertBefore(ok, wrap.firstChild);
+              else form.parentNode.insertBefore(ok, form);
+              ok.focus();
+            } catch (err) {
+              console.error('Kontakt / Pipedrive:', err);
+              alert('Kunne ikke sende skjema. Prøv igjen eller ring oss.');
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.removeAttribute('aria-busy');
+              }
+            }
+          });
+        });
+      });
+    })();
+  </script>
+{% endif %}

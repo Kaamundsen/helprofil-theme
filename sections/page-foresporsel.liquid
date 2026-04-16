@@ -404,9 +404,16 @@
   </div>
 </div>
 
+{% if settings.pipedrive_api_token == blank %}
+  <script>
+    console.warn('Pipedrive: Mangler API-token under Tema-innstillinger → Pipedrive.');
+  </script>
+{% else %}
 <script>
-  var PIPEDRIVE_TOKEN = 'e06d30c7dfc8de6b016701ee513261e6d7e01147';
+  var PIPEDRIVE_TOKEN = {{ settings.pipedrive_api_token | json }};
   var PIPEDRIVE_BASE = 'https://api.pipedrive.com/v1';
+  var PIPEDRIVE_PIPELINE_ID = {{ settings.pipedrive_pipeline_id | default: 2 }};
+  var PIPEDRIVE_STAGE_ID = {{ settings.pipedrive_stage_id | default: 6 }};
 
   document.addEventListener('DOMContentLoaded', function () {
 
@@ -475,7 +482,7 @@
         // 1. Opprett Organisasjon hvis firmanavn er fylt ut
         var orgId = null;
         if (data.firmanavn && data.firmanavn.trim()) {
-          var orgRes = await fetch(PIPEDRIVE_BASE + '/organizations?api_token=' + PIPEDRIVE_TOKEN, {
+          var orgRes = await fetch(PIPEDRIVE_BASE + '/organizations?api_token=' + encodeURIComponent(PIPEDRIVE_TOKEN), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: data.firmanavn.trim() })
@@ -494,7 +501,7 @@
         if (data.telefon && data.telefon.trim()) personPayload.phone = [{ value: data.telefon.trim(), primary: true }];
         if (orgId) personPayload.org_id = orgId;
 
-        var personRes = await fetch(PIPEDRIVE_BASE + '/persons?api_token=' + PIPEDRIVE_TOKEN, {
+        var personRes = await fetch(PIPEDRIVE_BASE + '/persons?api_token=' + encodeURIComponent(PIPEDRIVE_TOKEN), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(personPayload)
@@ -506,18 +513,19 @@
 
         // Opprett Deal i "Bestillinger"-pipeline, stage "Henvendelse"
         var dealTitle = 'Forespørsel \u2013 ' + ([data.fornavn, data.etternavn].filter(Boolean).join(' ') || data.email);
-        var dealRes = await fetch(PIPEDRIVE_BASE + '/deals?api_token=' + PIPEDRIVE_TOKEN, {
+        var dealRes = await fetch(PIPEDRIVE_BASE + '/deals?api_token=' + encodeURIComponent(PIPEDRIVE_TOKEN), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             title: dealTitle,
             person_id: personId,
             org_id: orgId || undefined,
-            pipeline_id: 2,
-            stage_id: 6,
+            pipeline_id: PIPEDRIVE_PIPELINE_ID,
+            stage_id: PIPEDRIVE_STAGE_ID,
           })
         });
         var deal = await dealRes.json();
+        if (!dealRes.ok || !deal.success) throw new Error('Deal feil: ' + (deal.error || JSON.stringify(deal)));
         var dealId = deal.data && deal.data.id;
 
         // 4. Legg til note med kontaktinfo, produkter og melding
@@ -529,7 +537,7 @@
         noteContent += '<br><b>Produkter:</b><br>' + (data.produkter || '-').replace(/\n/g, '<br>');
         if (data.melding) noteContent += '<br><br><b>Melding:</b><br>' + data.melding;
 
-        await fetch(PIPEDRIVE_BASE + '/notes?api_token=' + PIPEDRIVE_TOKEN, {
+        await fetch(PIPEDRIVE_BASE + '/notes?api_token=' + encodeURIComponent(PIPEDRIVE_TOKEN), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -554,6 +562,7 @@
   });
 </script>
 
+{% endif %}
 {% endif %}
 
 {% schema %}

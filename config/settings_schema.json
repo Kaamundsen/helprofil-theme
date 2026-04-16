@@ -33,6 +33,32 @@
     ]
   },
   {
+    "name": "Pipedrive",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Kontaktskjema (sider) og forespørselssiden sender kopier hit. Lim inn API-token fra Pipedrive under Innstillinger → Integrasjoner → API. Begrens tokenets tilgang i Pipedrive der det er mulig."
+      },
+      {
+        "type": "text",
+        "id": "pipedrive_api_token",
+        "label": "Pipedrive API-token"
+      },
+      {
+        "type": "number",
+        "id": "pipedrive_pipeline_id",
+        "label": "Pipeline-ID for nye saker",
+        "default": 2
+      },
+      {
+        "type": "number",
+        "id": "pipedrive_stage_id",
+        "label": "Stage-ID (f.eks. «Henvendelse»)",
+        "default": 6
+      }
+    ]
+  },
+  {
     "name": "t:names.colors",
     "settings": [
       {
