@@ -291,6 +291,35 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
   color: var(--hp-color-primary) !important;
 }
 
+/* Menyskuff: Helprofil-regelen over ga alle .button-unstyled hvit bakgrunn —
+   lukk/tilbake ble en solid hvit boks med hvit/usynlig X. Nesten gjennomsiktig
+   flate + hvit X mot mørk drawer. */
+.header .menu-drawer .button-unstyled,
+.header .menu-drawer .close-button.menu-drawer__close-button,
+.header .menu-drawer .menu-drawer__back-button {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  box-shadow: none !important;
+}
+
+.header .menu-drawer .menu-drawer__close-button:hover,
+.header .menu-drawer .menu-drawer__close-button:focus,
+.header .menu-drawer .menu-drawer__back-button:hover,
+.header .menu-drawer .menu-drawer__back-button:focus {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.header .menu-drawer .menu-drawer__close-button svg,
+.header .menu-drawer .close-button.menu-drawer__close-button svg {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.header .menu-drawer .menu-drawer__back-button svg {
+  stroke: var(--color-foreground) !important;
+  color: var(--color-foreground) !important;
+}
+
 /* ============================================
    Cart bubble (antall varer i handlekurv)
    ============================================ */
