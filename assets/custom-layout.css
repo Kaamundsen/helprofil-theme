@@ -154,7 +154,7 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
 
 @media screen and (max-width: 749px) {
   .hero-wrapper .hero {
-    min-height: 31rem;
+    min-height: 27rem;
   }
 
   .hero__image,
@@ -164,17 +164,13 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
 }
 
 /* ============================================
-   Header – logo-font på mobil
-   Sikrer at logoteksten bruker body-font (ikke
-   fallback system-font) på mobilvisning
+   Header – logo-tekst (samme som overskrifter)
    ============================================ */
 
-@media screen and (max-width: 749px) {
-  .header-logo {
-    font-family: var(--font-body--family) !important;
-    font-weight: 600 !important;
-    font-style: var(--font-body--style) !important;
-  }
+.header-logo {
+  font-family: var(--font-heading--family), var(--font-body--family) !important;
+  font-weight: var(--font-heading--weight) !important;
+  font-style: var(--font-heading--style) !important;
 }
 
 /* ============================================
@@ -220,6 +216,27 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
 .header,
 .header a {
   color: var(--hp-text-on-light);
+}
+
+/* Menydrawer: lenker og tekst følger drawer sitt fargetema (unngår blå på blå) */
+.header .menu-drawer,
+.header .menu-drawer a,
+.header .menu-drawer button.link,
+.header .menu-drawer .menu-drawer__menu-item-text {
+  color: var(--color-foreground);
+}
+
+.header .menu-drawer .svg-wrapper,
+.header .menu-drawer svg {
+  color: var(--color-foreground);
+  stroke: var(--color-foreground);
+}
+
+/* Lukk / tilbake i drawer — overstyr header-ikon-regler */
+.header .menu-drawer .button-unstyled svg,
+.header .menu-drawer .close-button svg {
+  stroke: var(--color-foreground) !important;
+  color: var(--color-foreground) !important;
 }
 
 /* Header ikoner - mørkeblå outline på hvit bakgrunn */
