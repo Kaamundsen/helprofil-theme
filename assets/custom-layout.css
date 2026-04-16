@@ -154,12 +154,26 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
 
 @media screen and (max-width: 749px) {
   .hero-wrapper .hero {
-    min-height: 75svh;
+    min-height: 31rem;
   }
 
   .hero__image,
   .hero__video-poster {
     object-position: center 20%;
+  }
+}
+
+/* ============================================
+   Header – logo-font på mobil
+   Sikrer at logoteksten bruker body-font (ikke
+   fallback system-font) på mobilvisning
+   ============================================ */
+
+@media screen and (max-width: 749px) {
+  .header-logo {
+    font-family: var(--font-body--family) !important;
+    font-weight: 600 !important;
+    font-style: var(--font-body--style) !important;
   }
 }
 
