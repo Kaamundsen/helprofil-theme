@@ -28,5 +28,5 @@
 
   {{ image | image_url: height: image_height | image_tag: class: class, srcset: image_srcset, style: style_value }}
 {% elsif text_fallback %}
-  {{ text_fallback }}
+  <span class="image-fallback-text">{{ text_fallback }}</span>
 {% endif %}

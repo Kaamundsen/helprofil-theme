@@ -171,6 +171,36 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
   font-family: var(--font-heading--family), var(--font-body--family) !important;
   font-weight: var(--font-heading--weight) !important;
   font-style: var(--font-heading--style) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tekst-logo når bilde mangler (Safari bruker ofte systemfont uten egen span) */
+.header-logo .image-fallback-text {
+  font-family: var(--font-heading--family), var(--font-body--family) !important;
+  font-weight: var(--font-heading--weight) !important;
+  font-style: var(--font-heading--style) !important;
+  font-size: clamp(1rem, 4.5vw, 1.35rem);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* ============================================
+   Mobil: hamburger og X synlig på hvit header-rad
+   (transparent header gir ofte hvit ikon-farge fra color-scheme)
+   ============================================ */
+@media screen and (max-width: 749px) {
+  .menu-drawer-container .header__icon--summary,
+  .menu-drawer-container .header__icon--summary .svg-wrapper,
+  .menu-drawer-container .header__icon--summary .header-drawer-icon {
+    color: var(--hp-color-primary) !important;
+  }
+
+  .menu-drawer-container .header__icon--summary svg,
+  .menu-drawer-container .header__icon--summary .header-drawer-icon svg {
+    stroke: var(--hp-color-primary) !important;
+    color: var(--hp-color-primary) !important;
+  }
 }
 
 /* ============================================

@@ -30,7 +30,9 @@
       {% render 'header-drawer',
         class: 'header__drawer--mobile',
         linklist: block_settings.menu,
-        data_header_drawer_type: 'mobile-drawer'
+        data_header_drawer_type: 'mobile-drawer',
+        block: block,
+        section: section
       %}
     </div>
 
@@ -646,6 +648,17 @@
         }
       ],
       "default": "collection_images"
+    },
+    {
+      "type": "range",
+      "id": "drawer_featured_items_limit",
+      "label": "Antall fremhevede produkter/kolleksjoner i meny",
+      "info": "Gjelder når stilen er «Utvalgte produkter» eller «Utvalgte kolleksjoner». Viser de første fra valgt kolleksjon eller menyrekkefølgen (Shopify sortering).",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "visible_if": "{{ block.settings.menu_style == 'featured_products' or block.settings.menu_style == 'featured_collections' }}"
     },
     {
       "type": "select",
