@@ -248,6 +248,18 @@ main a:not(.button):not(.button-secondary):not(.button-unstyled):hover {
 }
 
 /* ============================================
+   Mobilvisning: collection-kort i grid
+   Når siste kort er alene på rad (odde antall
+   kort i 2-kolonne-grid) strekkes det til full
+   bredde — gir 2 kort på topp + 1 full bredde
+   ============================================ */
+@container resource-list (max-width: 449px) {
+  .resource-list--grid .resource-list__item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ============================================
    Footer / Nyhetsbrev
    ============================================ */
 
