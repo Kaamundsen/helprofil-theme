@@ -183,7 +183,7 @@
               "name": "Kolleksjon",
               "settings": {
                 "width": "fit-content",
-                "max_width": "narrow",
+                "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "h3",
                 "font": "var(--font-body--family)",
