@@ -56,7 +56,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<h3>Alle produkter</h3>",
+                "text": "<h3>Her kommer  våre produkter på Event & Merch</h3>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
