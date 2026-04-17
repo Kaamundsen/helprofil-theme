@@ -234,8 +234,7 @@
         "collection_list": [
           "frontpage",
           "treningsklaer-kopi",
-          "bedriftsprofilering-kopi",
-          "event-og-merch"
+          "bedriftsprofilering-kopi"
         ],
         "layout_type": "grid",
         "carousel_on_mobile": false,
