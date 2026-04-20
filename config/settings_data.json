@@ -11,7 +11,7 @@
   "current": {
     "logo": "{{ shop.brand.logo }}",
     "logo_inverse": "shopify://shop_images/Helprofil-Logo-hvit.svg",
-    "favicon": "shopify://shop_images/Helprofil-Symbol.svg",
+    "favicon": "shopify://shop_images/Logo_helprofil_endelig_1.png",
     "pipedrive_api_token": "e06d30c7dfc8de6b016701ee513261e6d7e01147",
     "type_body_font": "poppins_n4",
     "type_subheading_font": "poppins_n6",
