@@ -115,7 +115,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>Ring oss på  <a href=\"tel:0047 91171325\" title=\"tel:0047 91171325\">911 71 325</a></p><p>Send oss en epost på <a href=\"mailto:post@helprofil.no\" title=\"mailto:post@helprofil.no\">lars@helprofil.no</a></p><p>Eller stikk innom oss i Lettvintveien 39 på Grefsen</p>",
+            "text": "<p>Ring oss på  <a href=\"tel:0047 91171325\" title=\"tel:0047 91171325\">911 71 325</a></p><p>Send oss en epost på <a href=\"mailto:lars@helprofil.no\" title=\"mailto:lars@helprofil.no\">lars@helprofil.no</a></p><p>Eller stikk innom oss i Lettvintveien 39 på Grefsen</p>",
             "width": "fit-content",
             "max_width": "none",
             "alignment": "left",
